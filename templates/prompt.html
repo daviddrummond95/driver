@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generator - DRIVER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .fractal-blue { color: #0066CC; }
+        .fractal-bg-blue { background-color: #0066CC; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    {% include 'header.html' %}
+    <div class="container mx-auto px-4 py-8 max-w-2xl" x-data="{ showOptions: false }">
+        <h1 class="text-3xl font-bold mb-8 text-center">Email Generator</h1>
+        
+        <form action="/generate-email" method="POST" class="space-y-6">
+            <div>
+                <label for="prompt" class="block text-lg font-semibold mb-2">Email Prompt:</label>
+                <textarea id="prompt" name="prompt" rows="6" class="w-full px-4 py-3 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base" required></textarea>
+            </div>
+            
+            <div>
+                <button type="button" @click="showOptions = !showOptions" class="w-full text-left px-4 py-2 bg-gray-200 rounded-lg focus:outline-none hover:bg-gray-300 transition duration-300">
+                    <span class="font-medium">Advanced Options</span>
+                    <span x-show="!showOptions" class="float-right">▼</span>
+                    <span x-show="showOptions" class="float-right">▲</span>
+                </button>
+            </div>
+            
+            <div x-show="showOptions" class="space-y-4 bg-white p-4 rounded-lg shadow-sm">
+                <div>
+                    <label for="content_purposes" class="block text-sm font-medium mb-2">Content Purposes:</label>
+                    <select id="content_purposes" name="content_purposes" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" multiple required>
+                        <option value="Clinical efficacy">Clinical efficacy</option>
+                        <option value="Safety profile">Safety profile</option>
+                        <option value="Mechanism of action">Mechanism of action</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="key_messages" class="block text-sm font-medium mb-2">Key Messages:</label>
+                    <select id="key_messages" name="key_messages" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" multiple required>
+                        <option value="Efficacy breakthrough">Efficacy breakthrough</option>
+                        <option value="Precision medicine">Precision medicine</option>
+                        <option value="Quality of life focus">Quality of life focus</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit" class="w-full fractal-bg-blue text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 text-base font-medium">Generate Email</button>
+        </form>
+    </div>
+    <script>
+        // Auto-resize textarea
+        document.getElementById('prompt').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>

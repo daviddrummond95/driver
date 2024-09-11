@@ -1,0 +1,156 @@
+<style>
+.component-wrapper {
+    position: relative;
+    transition: transform 0.3s ease, margin 0.3s ease;
+}
+.drop-zone {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    transition: height 0.3s ease;
+}
+.drop-zone-top {
+    top: -5px;
+}
+.drop-zone-bottom {
+    bottom: -5px;
+}
+.drop-zone.active {
+    height: 20px;
+    background-color: rgba(200, 200, 200, 0.3);
+    border: 2px dashed #aaa;
+}
+.phantom-component {
+    height: 10px;
+    transition: height 0.3s ease;
+}
+.phantom-component.active {
+    height: 40px;
+    background-color: rgba(200, 200, 200, 0.3);
+    border: 2px dashed #aaa;
+}
+.fractal-blue { color: #0066CC; }
+.fractal-bg-blue { background-color: #0066CC; }
+</style>
+
+<div id="document" class="bg-white p-4 rounded-lg border-2 border-dashed border-gray-300">
+    <h2 class="text-xl font-bold mb-4 fractal-blue">DRIVER Email Document</h2>
+    <div id="email-content" class="min-h-[300px] space-y-2">
+        <div id="phantom-top" class="phantom-component rounded"></div>
+        {% if generated_email %}
+            {% for component in generated_email.split('\n') %}
+                {% if component.strip() %}
+                    <div class="relative bg-gray-100 p-2 rounded mb-2 component-wrapper" draggable="true" ondragstart="drag(event)">
+                        <button class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs" onclick="this.parentElement.remove()">&times;</button>
+                        <div class="pr-6">{{ component | safe }}</div>
+                        <div class="drop-zone drop-zone-top"></div>
+                        <div class="drop-zone drop-zone-bottom"></div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div id="phantom-bottom" class="phantom-component rounded"></div>
+    </div>
+</div>
+
+<script>
+function allowDrop(ev) {
+    ev.preventDefault();
+    const target = ev.target.closest('.drop-zone, .phantom-component');
+    if (target) {
+        resetActiveElements();
+        target.classList.add('active');
+    }
+}
+
+function resetActiveElements() {
+    document.querySelectorAll('.drop-zone.active, .phantom-component.active').forEach(el => {
+        el.classList.remove('active');
+    });
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    var draggedElement = document.getElementById(data);
+    var dropTarget = ev.target.closest('.drop-zone, .phantom-component, #email-content');
+    
+    if (draggedElement.classList.contains('component-wrapper')) {
+        insertElement(draggedElement, dropTarget);
+    } else {
+        var componentId = draggedElement.id.replace('component-', '');
+        var wrapper = createComponentWrapper(componentId);
+        insertElement(wrapper, dropTarget);
+        loadComponentContent(wrapper, componentId);
+    }
+    
+    resetActiveElements();
+}
+
+function insertElement(element, target) {
+    if (target.classList.contains('drop-zone-top')) {
+        target.closest('.component-wrapper').parentNode.insertBefore(element, target.closest('.component-wrapper'));
+    } else if (target.classList.contains('drop-zone_bottom')) {
+        target.closest('.component-wrapper').parentNode.insertBefore(element, target.closest('.component-wrapper').nextSibling);
+    } else if (target.id === 'phantom_top') {
+        target.parentNode.insertBefore(element, target.nextSibling);
+    } else if (target.id === 'phantom_bottom') {
+        target.parentNode.insertBefore(element, target);
+    } else {
+        target.insertBefore(element, target.lastElementChild);
+    }
+}
+
+function createComponentWrapper(componentId) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'relative bg-gray-100 p-2 rounded mb-2 component-wrapper';
+    wrapper.draggable = true;
+    wrapper.ondragstart = drag;
+    wrapper.id = 'wrapper-' + componentId;
+    
+    var removeButton = document.createElement('button');
+    removeButton.innerHTML = '&times;';
+    removeButton.className = 'absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs';
+    removeButton.onclick = function() {
+        wrapper.remove();
+    };
+    
+    var componentContent = document.createElement('div');
+    componentContent.className = 'pr-6';
+    componentContent.innerHTML = '<div class="text-center">Loading...</div>';
+    
+    var topDropZone = document.createElement('div');
+    topDropZone.className = 'drop-zone drop-zone-top';
+    
+    var bottomDropZone = document.createElement('div');
+    bottomDropZone.className = 'drop-zone drop-zone-bottom';
+    
+    wrapper.appendChild(removeButton);
+    wrapper.appendChild(componentContent);
+    wrapper.appendChild(topDropZone);
+    wrapper.appendChild(bottomDropZone);
+    
+    return wrapper;
+}
+
+function loadComponentContent(wrapper, componentId) {
+    fetch(`/editor/component/${componentId}`)
+        .then(response => response.text())
+        .then(html => {
+            wrapper.querySelector('div').innerHTML = html;
+        })
+        .catch(error => {
+            wrapper.querySelector('div').innerHTML = '<div class="text-red-500">Error loading component</div>';
+            console.error('Error:', error);
+        });
+}
+
+function loadGeneratedEmail(emailHtml) {
+    document.getElementById('email-content').innerHTML = emailHtml;
+}
+</script>

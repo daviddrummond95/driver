@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalize Email - DRIVER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Arial', sans-serif; }
+        .fractal-blue { color: #0066CC; }
+        .fractal-bg-blue { background-color: #0066CC; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    {% include 'header.html' %}
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-4 fractal-blue">Finalize Email</h2>
+        <div class="flex space-x-4">
+            <div class="w-1/2">
+                <form action="/editor/upload" method="POST" class="bg-white p-4 rounded-lg shadow">
+                    <div class="mb-4">
+                        <label for="email_name" class="block text-sm font-medium text-gray-700">Email Name</label>
+                        <input type="text" id="email_name" name="email_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="mb-4">
+                        <label for="campaign_tags" class="block text-sm font-medium text-gray-700">Campaign Tags (comma-separated)</label>
+                        <input type="text" id="campaign_tags" name="campaign_tags" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <input type="hidden" name="email_content" value="{{ email_content | e }}">
+                    <button type="submit" class="fractal-bg-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Upload to DRIVER
+                    </button>
+                </form>
+            </div>
+            <div class="w-1/2">
+                <h2 class="text-xl font-bold mb-2">Final Email Preview</h2>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <div class="email-content">
+                        {{ email_content | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

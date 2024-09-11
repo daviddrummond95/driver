@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Successful - DRIVER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Arial', sans-serif; }
+        .fractal-blue { color: #0066CC; }
+        .fractal-bg-blue { background-color: #0066CC; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    {% include 'header.html' %}
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-4 fractal-blue">Upload Successful</h2>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <p class="text-green-600 font-bold">Your email has been successfully uploaded to DRIVER!</p>
+            <div class="mt-4">
+                <h2 class="text-xl font-bold">Email Details:</h2>
+                <p><strong>Name:</strong> {{ email_name }}</p>
+                <p><strong>Campaign Tags:</strong> {{ campaign_tags }}</p>
+            </div>
+            <div class="mt-4">
+                <h2 class="text-xl font-bold">Email Content:</h2>
+                <div class="mt-2 border p-4 rounded">
+                    <div class="email-content">
+                        {{ email_content | safe }}
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="/" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    Create New Email
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

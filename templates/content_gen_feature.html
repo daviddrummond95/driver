@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Content Generation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .flow-arrow {
+            position: absolute;
+            top: 50%;
+            right: -30px;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #4B5563;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-3xl font-bold mb-6 text-center text-blue-600 animate-fadeInUp">AI-Powered Content Generation</h2>
+        
+        <p class="mb-8 text-gray-700 animate-fadeInUp" style="animation-delay: 0.2s;">
+            Our advanced AI engine crafts personalized emails by intelligently selecting and arranging pre-made components based on your input. Here's how it works:
+        </p>
+
+        <div class="space-y-8">
+            <div class="relative p-6 bg-gray-50 rounded-lg animate-fadeInUp" style="animation-delay: 0.4s;">
+                <h3 class="text-xl font-semibold mb-2 text-blue-500">1. Input Processing</h3>
+                <p class="text-gray-700">You provide a prompt, content purposes, and key messages.</p>
+                <div class="flow-arrow">→</div>
+            </div>
+
+            <div class="relative p-6 bg-gray-50 rounded-lg animate-fadeInUp" style="animation-delay: 0.6s;">
+                <h3 class="text-xl font-semibold mb-2 text-blue-500">2. Component Filtering</h3>
+                <p class="text-gray-700">The system filters components based on your specified content purposes and key messages.</p>
+                <div class="flow-arrow">→</div>
+            </div>
+
+            <div class="relative p-6 bg-gray-50 rounded-lg animate-fadeInUp" style="animation-delay: 0.8s;">
+                <h3 class="text-xl font-semibold mb-2 text-blue-500">3. AI Analysis</h3>
+                <p class="text-gray-700">Our LLM (Llama3-70b-8192) analyzes the filtered components and your prompt.</p>
+                <div class="flow-arrow">→</div>
+            </div>
+
+            <div class="relative p-6 bg-gray-50 rounded-lg animate-fadeInUp" style="animation-delay: 1s;">
+                <h3 class="text-xl font-semibold mb-2 text-blue-500">4. Content Organization</h3>
+                <p class="text-gray-700">The AI selects and orders the most relevant components to create a cohesive email.</p>
+                <div class="flow-arrow">→</div>
+            </div>
+
+            <div class="p-6 bg-gray-50 rounded-lg animate-fadeInUp" style="animation-delay: 1.2s;">
+                <h3 class="text-xl font-semibold mb-2 text-blue-500">5. Email Generation</h3>
+                <p class="text-gray-700">The system assembles the final email using the ordered components.</p>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center animate-fadeInUp" style="animation-delay: 1.4s;">
+            <p class="text-gray-700 mb-4">
+                This process ensures that your emails are not only personalized but also maintain brand consistency and adhere to your specific content requirements.
+            </p>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Try It Now
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const elements = document.querySelectorAll('.animate-fadeInUp');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.animationDelay = `${index * 0.2}s`;
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
