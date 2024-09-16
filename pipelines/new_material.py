@@ -5,7 +5,7 @@ import re
 import logging
 
 # Initialize the LLM
-os.environ["GROQ_API_KEY"] = ""
+
 llm = ChatGroq(
     model="llama3-70b-8192",
     temperature=0.5,

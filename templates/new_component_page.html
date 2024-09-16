@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Component - DRIVER</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .scrollable-container {
+            height: calc(100vh - 6rem);
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+        body { font-family: 'Arial', sans-serif; }
+        .fractal-blue { color: #0066CC; }
+        .fractal-bg-blue { background-color: #0066CC; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4 fractal-blue">Email Constructor - Create New Component</h1>
+        <div class="flex space-x-4">
+            <div class="w-1/2 scrollable-container">
+                <h2 class="text-xl font-semibold mb-2">Prompt</h2>
+                <form id="componentForm" class="space-y-4">
+                    <div>
+                        <label for="component_type" class="block mb-1">Component Type</label>
+                        <select id="component_type" name="component_type" class="w-full p-2 border rounded">
+                            <option value="clinical_data">Clinical Data</option>
+                            <option value="cta">Call to Action</option>
+                            <option value="dosing">Dosing</option>
+                            <option value="footer">Footer</option>
+                            <option value="greetings">Greetings</option>
+                            <option value="introduction">Introduction</option>
+                            <option value="key_message">Key Message</option>
+                            <option value="safety_information">Safety Information</option>
+                            <option value="subject_lines">Subject Lines</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="prompt" class="block mb-1">Prompt</label>
+                        <textarea id="prompt" name="prompt" rows="4" class="w-full p-2 border rounded"></textarea>
+                    </div>
+                    <button type="submit" class="fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600">Generate Component</button>
+                </form>
+            </div>
+            <div class="w-1/2 scrollable-container">
+                <h2 class="text-xl font-semibold mb-2">Generated Component</h2>
+                <div id="componentWrapper" class="bg-white p-4 rounded-lg border">
+                    <div id="generatedComponentWrapper">
+                        <!-- Generated component will be inserted here -->
+                    </div>
+                </div>
+                <button id="addToRepositoryBtn" onclick="addToRepository()" class="mt-4 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" style="display: none;">Add to Repository</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailId = urlParams.get('email_id');
+
+        document.getElementById('componentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/editor/component/generate_component', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.text();
+            document.getElementById('generatedComponentWrapper').innerHTML = result;
+            document.getElementById('addToRepositoryBtn').style.display = 'block';
+        });
+
+        function addToRepository() {
+            const componentType = document.getElementById('component_type').value;
+            const componentContent = document.getElementById('generatedComponentWrapper').querySelector('.component-content');
+            
+            if (!componentContent) {
+                alert('No component content found to add to repository.');
+                return;
+            }
+
+            const content = componentContent.innerHTML;
+
+            fetch('/editor/component/add_to_repository', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'component_type': componentType,
+                    'content': content
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Component added to repository successfully!');
+                    if (emailId) {
+                        window.location.href = `/editor/?email_id=${emailId}`;
+                    } else {
+                        window.close();
+                    }
+                } else {
+                    alert('Failed to add component to repository.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while adding the component');
+            });
+        }
+    </script>
+</body>
+</html>

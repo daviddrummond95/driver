@@ -1,0 +1,65 @@
+
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold">introduction Component</h3>
+        <div class="bg-white p-4 rounded-lg border">
+            
+  
+    <div class="bg-white p-6 md:p-12 lg:p-24">
+      <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+        You're Invited: Join the Forefront of Medical Innovation
+      </h2>
+      <p class="text-lg md:text-xl lg:text-2xl leading-relaxed mb-8">
+        We are delighted to invite you to our upcoming symposium, where the latest advancements in medical technology and research will be showcased.
+      </p>
+    </div>
+  
+
+        </div>
+        <div class="mt-2">
+            <h4 class="font-semibold">MLR Compliance:</h4>
+            <pre class="bg-gray-100 p-2 rounded">"After reviewing the provided HTML content, I am pleased to report that it appears to be compliant with Medical Legal Review (MLR) guidelines. Here\u0027s a breakdown of my analysis:\n\n**No Claims or Promises:** The content does not make any explicit or implicit claims about the effectiveness of a treatment, device, or medication. It simply invites the reader to a symposium to learn about the latest advancements in medical technology and research.\n\n**No Misleading Information:** The language used is neutral and does not contain any misleading or inaccurate information that could be considered promotional or misleading.\n\n**No Unsubstantiated Statements:** There are no statements that could be considered unsubstantiated or lacking in scientific evidence.\n\n**No Off-Label Use:** The content does not promote or suggest the use of a medical device, medication, or treatment for an off-label purpose.\n\n**No Unqualified or Unlicensed Individuals:** The content does not appear to be written or endorsed by an unqualified or unlicensed individual.\n\n**No False or Misleading Comparisons:** There are no comparisons made between different treatments, devices, or medications that could be considered false or misleading.\n\n**No Inappropriate Use of Testimonials:** There are no testimonials or endorsements from individuals that could be considered inappropriate or misleading.\n\n**No Failure to Disclose Risks:** The content does not discuss specific treatments or medications, so there is no need to disclose risks or side effects.\n\nBased on this analysis, I conclude that the provided HTML content is compliant with MLR guidelines. It appears to be a neutral, informative invitation to a symposium, and it does not contain any language or claims that could be considered promotional, misleading, or non-compliant with MLR regulations."</pre>
+        </div>
+        <button class="mt-2 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" onclick="addToRepository('introduction', `<html>
+  <body>
+    <div class=&quot;bg-white p-6 md:p-12 lg:p-24&quot;>
+      <h2 class=&quot;text-2xl md:text-3xl lg:text-4xl font-bold mb-4&quot;>
+        You're Invited: Join the Forefront of Medical Innovation
+      </h2>
+      <p class=&quot;text-lg md:text-xl lg:text-2xl leading-relaxed mb-8&quot;>
+        We are delighted to invite you to our upcoming symposium, where the latest advancements in medical technology and research will be showcased.
+      </p>
+    </div>
+  </body>
+</html>`)">
+            Add to Repository
+        </button>
+    </div>
+
+
+<script>
+    function addToRepository(componentType, content) {
+        fetch('/editor/component/add_to_repository', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'component_type': componentType,
+                'content': content
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Component added to repository successfully!');
+                window.parent.postMessage({ type: 'addComponent', componentType: componentType, html: content }, '*');
+            } else {
+                alert('Failed to add component to repository.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the component');
+        });
+    }
+</script>

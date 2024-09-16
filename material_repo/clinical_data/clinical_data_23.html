@@ -1,0 +1,105 @@
+
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold">clinical_data Component</h3>
+        <div class="bg-white p-4 rounded-lg border">
+            
+<div class="component-content">
+    
+  <div class="bg-white p-4 rounded-md shadow-md">
+    <h2 class="text-lg font-bold mb-2">Clinical Data</h2>
+    <p class="text-gray-600 mb-4">Our medical product/service has undergone rigorous clinical testing to ensure its safety and efficacy.</p>
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2">Study</th>
+          <th class="px-4 py-2">Participants</th>
+          <th class="px-4 py-2">Results</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-2">Phase III Clinical Trial</td>
+          <td class="px-4 py-2">1,200 patients with chronic condition X</td>
+          <td class="px-4 py-2">85% reduction in symptoms, 90% patient satisfaction rate</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2">Open-Label Extension Study</td>
+          <td class="px-4 py-2">500 patients with condition Y</td>
+          <td class="px-4 py-2">75% improvement in quality of life, 95% adherence rate</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="text-gray-600 mt-4">These studies demonstrate the significant benefits of our medical product/service in treating various conditions. For more information, please <a href="#" class="text-blue-600 underline">download our clinical data package</a>.</p>
+  </div>
+
+</div>
+
+        </div>
+        <div class="mt-2">
+            <h4 class="font-semibold">MLR Compliance:</h4>
+            <pre class="bg-gray-100 p-2 rounded">"After reviewing the provided HTML content, I have identified some potential compliance issues related to Medical Legal Review (MLR) for healthcare communications. Here is a detailed report:\n\n**Compliance Issues:**\n\n1. **Unsubstantiated Claims**: The content makes claims about the medical product/service, such as \"85% reduction in symptoms\" and \"90% patient satisfaction rate,\" without providing sufficient context or references to support these claims. MLR guidelines require that any claims made about a product or service be supported by robust clinical evidence and comply with regulatory guidelines.\n\n2. **Lack of Risk Information**: The content only presents the benefits of the medical product/service without discussing potential risks, side effects, or contraindications. MLR guidelines require a balanced presentation of both benefits and risks to ensure that patients are fully informed.\n\n3. **Unclear Language**: The content uses technical terms like \"Phase III Clinical Trial\" and \"Open-Label Extension Study\" without explaining them in plain language. MLR guidelines recommend using clear, concise language that patients can understand.\n\n4. **Call-to-Action**: The content includes a call-to-action (\"download our clinical data package\") that may be perceived as promotional. MLR guidelines require that any promotional materials be clearly labeled as such and comply with regulatory guidelines.\n\n**Recommendations:**\n\n1. **Add Context and References**: Provide more context about the clinical trials, including the study design, population, and endpoints. Additionally, include references to the studies or publications that support the claims made.\n\n2. **Include Risk Information**: Add a section that discusses potential risks, side effects, or contraindications associated with the medical product/service.\n\n3. **Use Plain Language**: Simplify technical terms and use plain language to ensure that patients can understand the content.\n\n4. **Rephrase Call-to-Action**: Rephrase the call-to-action to focus on providing educational resources rather than promotional materials.\n\n**Conclusion:**\n\nThe provided HTML content has several compliance issues related to unsubstantiated claims, lack of risk information, unclear language, and promotional tone. To ensure MLR compliance, it is essential to address these issues by adding context and references, including risk information, using plain language, and rephrasing the call-to-action."</pre>
+        </div>
+        <button class="mt-2 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" onclick="addToRepository('clinical_data', `
+<div class=&quot;component-content&quot;>
+    <html>
+  <div class=&quot;bg-white p-4 rounded-md shadow-md&quot;>
+    <h2 class=&quot;text-lg font-bold mb-2&quot;>Clinical Data</h2>
+    <p class=&quot;text-gray-600 mb-4&quot;>Our medical product/service has undergone rigorous clinical testing to ensure its safety and efficacy.</p>
+    <table class=&quot;w-full text-sm&quot;>
+      <thead>
+        <tr class=&quot;bg-gray-100&quot;>
+          <th class=&quot;px-4 py-2&quot;>Study</th>
+          <th class=&quot;px-4 py-2&quot;>Participants</th>
+          <th class=&quot;px-4 py-2&quot;>Results</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class=&quot;px-4 py-2&quot;>Phase III Clinical Trial</td>
+          <td class=&quot;px-4 py-2&quot;>1,200 patients with chronic condition X</td>
+          <td class=&quot;px-4 py-2&quot;>85% reduction in symptoms, 90% patient satisfaction rate</td>
+        </tr>
+        <tr>
+          <td class=&quot;px-4 py-2&quot;>Open-Label Extension Study</td>
+          <td class=&quot;px-4 py-2&quot;>500 patients with condition Y</td>
+          <td class=&quot;px-4 py-2&quot;>75% improvement in quality of life, 95% adherence rate</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class=&quot;text-gray-600 mt-4&quot;>These studies demonstrate the significant benefits of our medical product/service in treating various conditions. For more information, please <a href=&quot;#&quot; class=&quot;text-blue-600 underline&quot;>download our clinical data package</a>.</p>
+  </div>
+</html>
+</div>
+`)">
+            Add to Repository
+        </button>
+    </div>
+
+
+<script>
+    function addToRepository(componentType, content) {
+        fetch('/editor/component/add_to_repository', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'component_type': componentType,
+                'content': content
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Component added to repository successfully!');
+                window.parent.postMessage({ type: 'addComponent', componentType: componentType, html: content }, '*');
+            } else {
+                alert('Failed to add component to repository.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the component');
+        });
+    }
+</script>

@@ -3,8 +3,6 @@ from langchain_groq import ChatGroq
 import os
 import re
 
-# Ensure you have set your OpenAI API key in your environment variables
-os.environ["GROQ_API_KEY"] = ""
 
 llm = ChatGroq(
     model="llama3-70b-8192",

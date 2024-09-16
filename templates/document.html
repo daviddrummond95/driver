@@ -36,12 +36,12 @@
 
 <div id="document" class="bg-white p-4 rounded-lg border-2 border-dashed border-gray-300">
     <h2 class="text-xl font-bold mb-4 fractal-blue">DRIVER Email Document</h2>
-    <div id="email-content" class="min-h-[300px] space-y-2">
+    <div id="email-content" class="min-h-[300px] space-y-2" ondrop="drop(event)" ondragover="allowDrop(event)">
         <div id="phantom-top" class="phantom-component rounded"></div>
         {% if generated_email %}
             {% for component in generated_email.split('\n') %}
                 {% if component.strip() %}
-                    <div class="relative bg-gray-100 p-2 rounded mb-2 component-wrapper" draggable="true" ondragstart="drag(event)">
+                    <div class="relative bg-gray-100 p-2 rounded mb-2 component-wrapper" draggable="true" ondragstart="drag(event)" id="wrapper-{{ loop.index }}">
                         <button class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs" onclick="this.parentElement.remove()">&times;</button>
                         <div class="pr-6">{{ component | safe }}</div>
                         <div class="drop-zone drop-zone-top"></div>

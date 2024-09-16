@@ -1,0 +1,91 @@
+
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold">clinical_data Component</h3>
+        <div class="bg-white p-4 rounded-lg border">
+            
+  <div class="bg-white p-4 rounded-md shadow-md">
+    <h2 class="text-lg font-bold mb-2">Clinical Data Presented at Recent Press Conference</h2>
+    <p class="text-gray-600 mb-4">
+      We are pleased to share the latest clinical data presented at our recent press conference, highlighting the efficacy and safety of our medical product/service.
+    </p>
+    <ul class="list-none mb-4">
+      <li class="mb-2">
+        <span class="text-gray-600">Key Finding 1:</span> Our product/service demonstrated a significant improvement in patient outcomes, with a [X]% reduction in [specific health metric].
+      </li>
+      <li class="mb-2">
+        <span class="text-gray-600">Key Finding 2:</span> The data showed a strong correlation between our product/service and improved quality of life for patients, with a [X]% increase in patient satisfaction.
+      </li>
+      <li class="mb-2">
+        <span class="text-gray-600">Key Finding 3:</span> The study results confirmed the safety profile of our product/service, with a low incidence of adverse events (&lt;[X]%).
+      </li>
+    </ul>
+    <p class="text-gray-600 mb-4">
+      These findings further validate the potential of our medical product/service to transform the treatment landscape for [specific health condition]. We believe this data will have a significant impact on the way healthcare professionals approach patient care.
+    </p>
+    <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Learn More About the Clinical Data
+    </a>
+  </div>
+
+        </div>
+        <div class="mt-2">
+            <h4 class="font-semibold">MLR Compliance:</h4>
+            <pre class="bg-gray-100 p-2 rounded">"After reviewing the provided HTML content, I have identified some potential compliance issues related to Medical Legal Review (MLR) for healthcare communications. Here is a detailed report:\n\n**Compliance Issues:**\n\n1. **Unsubstantiated Claims**: The content makes claims about the product/service, such as \"significant improvement in patient outcomes,\" \"strong correlation between our product/service and improved quality of life,\" and \"transform the treatment landscape.\" These claims may be considered unsubstantiated without proper references to credible sources, such as peer-reviewed journals or clinical trials. To comply with MLR regulations, it is essential to provide evidence-based support for any claims made about a medical product or service.\n\n2. **Lack of Context for Statistics**: The content presents statistics, such as \"[X]% reduction in [specific health metric]\" and \"[X]% increase in patient satisfaction,\" without providing adequate context. It is crucial to clarify the study design, population, and methodology used to obtain these results. This context is necessary to ensure that the statistics are not misleading and to comply with MLR regulations.\n\n3. **Omission of Risk Information**: The content highlights the safety profile of the product/service, mentioning a \"low incidence of adverse events (\u003c[X]%)\". However, it does not provide a comprehensive overview of the potential risks and side effects associated with the product/service. MLR regulations require a balanced presentation of both benefits and risks to ensure that healthcare professionals and patients have a complete understanding of the product/service.\n\n4. **Promotional Tone**: The language used in the content, such as \"we believe this data will have a significant impact,\" may be perceived as promotional. MLR regulations require that healthcare communications maintain a neutral, educational tone, avoiding language that could be seen as promotional or misleading.\n\n**Recommendations:**\n\nTo ensure MLR compliance, I recommend the following:\n\n1. **Add References**: Provide credible sources to support the claims made about the product/service, such as peer-reviewed journals or clinical trials.\n\n2. **Provide Context for Statistics**: Clarify the study design, population, and methodology used to obtain the presented statistics.\n\n3. **Include Risk Information**: Present a balanced view of the product/service by including a comprehensive overview of potential risks and side effects.\n\n4. **Neutralize the Tone**: Revise the language to maintain a neutral, educational tone, avoiding promotional language.\n\nBy addressing these compliance issues, the content can be revised to ensure MLR compliance and provide a balanced, evidence-based presentation of the medical product/service."</pre>
+        </div>
+        <button class="mt-2 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" onclick="addToRepository('clinical_data', `<html>
+  <div class=&quot;bg-white p-4 rounded-md shadow-md&quot;>
+    <h2 class=&quot;text-lg font-bold mb-2&quot;>Clinical Data Presented at Recent Press Conference</h2>
+    <p class=&quot;text-gray-600 mb-4&quot;>
+      We are pleased to share the latest clinical data presented at our recent press conference, highlighting the efficacy and safety of our medical product/service.
+    </p>
+    <ul class=&quot;list-none mb-4&quot;>
+      <li class=&quot;mb-2&quot;>
+        <span class=&quot;text-gray-600&quot;>Key Finding 1:</span> Our product/service demonstrated a significant improvement in patient outcomes, with a [X]% reduction in [specific health metric].
+      </li>
+      <li class=&quot;mb-2&quot;>
+        <span class=&quot;text-gray-600&quot;>Key Finding 2:</span> The data showed a strong correlation between our product/service and improved quality of life for patients, with a [X]% increase in patient satisfaction.
+      </li>
+      <li class=&quot;mb-2&quot;>
+        <span class=&quot;text-gray-600&quot;>Key Finding 3:</span> The study results confirmed the safety profile of our product/service, with a low incidence of adverse events (<[X]%).
+      </li>
+    </ul>
+    <p class=&quot;text-gray-600 mb-4&quot;>
+      These findings further validate the potential of our medical product/service to transform the treatment landscape for [specific health condition]. We believe this data will have a significant impact on the way healthcare professionals approach patient care.
+    </p>
+    <a href=&quot;#&quot; class=&quot;bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded&quot;>
+      Learn More About the Clinical Data
+    </a>
+  </div>
+</html>`)">
+            Add to Repository
+        </button>
+    </div>
+
+
+<script>
+    function addToRepository(componentType, content) {
+        fetch('/editor/component/add_to_repository', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'component_type': componentType,
+                'content': content
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Component added to repository successfully!');
+                window.parent.postMessage({ type: 'addComponent', componentType: componentType, html: content }, '*');
+            } else {
+                alert('Failed to add component to repository.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the component');
+        });
+    }
+</script>

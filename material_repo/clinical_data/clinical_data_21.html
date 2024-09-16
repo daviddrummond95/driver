@@ -1,0 +1,79 @@
+
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold">clinical_data Component</h3>
+        <div class="bg-white p-4 rounded-lg border">
+            
+  <div class="bg-white p-4 rounded shadow-md">
+    <h2 class="text-lg font-bold mb-2">Recently Published Clinical Data</h2>
+    <p class="text-gray-600 mb-4">Stay up-to-date with the latest research and findings on our medical product/service.</p>
+    <ul class="list-none mb-4">
+      <li class="mb-2">
+        <span class="text-gray-600">Study Title:</span> Efficacy and Safety of [Product/Service Name] in [Specific Condition or Population]
+      </li>
+      <li class="mb-2">
+        <span class="text-gray-600">Publication:</span> <a href="#" class="text-blue-600 hover:text-blue-800">Journal of [Reputable Medical Journal]</a>, [Volume and Issue], [Year]
+      </li>
+      <li class="mb-2">
+        <span class="text-gray-600">Key Findings:</span> [Briefly summarize the main results of the study, highlighting any significant outcomes or benefits]
+      </li>
+    </ul>
+    <p class="text-gray-600 mb-4">To learn more about this study and how [Product/Service Name] can benefit your patients, <a href="#" class="text-blue-600 hover:text-blue-800">download the full study here</a>.</p>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Explore More Clinical Data</button>
+  </div>
+
+        </div>
+        <div class="mt-2">
+            <h4 class="font-semibold">MLR Compliance:</h4>
+            <pre class="bg-gray-100 p-2 rounded">"After reviewing the provided HTML content, I have identified some potential compliance issues related to Medical Legal Review (MLR) for healthcare communications. Here is a detailed report:\n\n**Compliance Issues:**\n\n1. **Off-Label Promotion:** The content may be promoting the product/service for a specific condition or population, which might not be approved by the relevant regulatory authorities (e.g., FDA). It is essential to ensure that any claims or promotions are aligned with the approved labeling and indications for the product/service.\n\n2. **Unsubstantiated Claims:** The \"Key Findings\" section summarizes the study results, but it may be making claims that are not fully supported by the study data. It is crucial to ensure that any claims or statements about the product/service are substantiated by robust scientific evidence and comply with regulatory guidelines.\n\n3. **Lack of Fair Balance:** The content appears to focus on the benefits of the product/service without providing a balanced view of the risks and side effects. It is essential to ensure that any promotional materials provide a fair balance of benefits and risks to comply with regulatory guidelines.\n\n4. **Call-to-Action:** The \"Explore More Clinical Data\" button may be encouraging healthcare professionals to explore more information about the product/service, which could be seen as promotional in nature. It is essential to ensure that any calls-to-action comply with regulatory guidelines and do not promote the product/service in an unfair or misleading manner.\n\n5. **Reference to Study:** The content references a study published in a reputable medical journal, but it does not provide a clear citation or reference to the study. It is essential to ensure that any references to studies or publications are accurate, complete, and comply with regulatory guidelines.\n\n**Recommendations:**\n\nTo address these compliance issues, I recommend the following:\n\n1. Ensure that any claims or promotions are aligned with the approved labeling and indications for the product/service.\n2. Verify that any claims or statements about the product/service are substantiated by robust scientific evidence and comply with regulatory guidelines.\n3. Provide a fair balance of benefits and risks in the content to comply with regulatory guidelines.\n4. Review the call-to-action to ensure it complies with regulatory guidelines and does not promote the product/service in an unfair or misleading manner.\n5. Provide a clear and accurate citation or reference to the study, including the title, authors, journal, volume, issue, and year of publication.\n\n**Conclusion:**\n\nBased on the analysis, the content is not fully compliant with MLR guidelines for healthcare communications. It is essential to address the identified compliance issues to ensure that the content meets regulatory requirements and guidelines."</pre>
+        </div>
+        <button class="mt-2 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" onclick="addToRepository('clinical_data', `<html>
+  <div class=&quot;bg-white p-4 rounded shadow-md&quot;>
+    <h2 class=&quot;text-lg font-bold mb-2&quot;>Recently Published Clinical Data</h2>
+    <p class=&quot;text-gray-600 mb-4&quot;>Stay up-to-date with the latest research and findings on our medical product/service.</p>
+    <ul class=&quot;list-none mb-4&quot;>
+      <li class=&quot;mb-2&quot;>
+        <span class=&quot;text-gray-600&quot;>Study Title:</span> Efficacy and Safety of [Product/Service Name] in [Specific Condition or Population]
+      </li>
+      <li class=&quot;mb-2&quot;>
+        <span class=&quot;text-gray-600&quot;>Publication:</span> <a href=&quot;#&quot; class=&quot;text-blue-600 hover:text-blue-800&quot;>Journal of [Reputable Medical Journal]</a>, [Volume and Issue], [Year]
+      </li>
+      <li class=&quot;mb-2&quot;>
+        <span class=&quot;text-gray-600&quot;>Key Findings:</span> [Briefly summarize the main results of the study, highlighting any significant outcomes or benefits]
+      </li>
+    </ul>
+    <p class=&quot;text-gray-600 mb-4&quot;>To learn more about this study and how [Product/Service Name] can benefit your patients, <a href=&quot;#&quot; class=&quot;text-blue-600 hover:text-blue-800&quot;>download the full study here</a>.</p>
+    <button class=&quot;bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded&quot;>Explore More Clinical Data</button>
+  </div>
+</html>`)">
+            Add to Repository
+        </button>
+    </div>
+
+
+<script>
+    function addToRepository(componentType, content) {
+        fetch('/editor/component/add_to_repository', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'component_type': componentType,
+                'content': content
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Component added to repository successfully!');
+                window.parent.postMessage({ type: 'addComponent', componentType: componentType, html: content }, '*');
+            } else {
+                alert('Failed to add component to repository.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the component');
+        });
+    }
+</script>
