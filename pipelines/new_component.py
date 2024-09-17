@@ -7,15 +7,37 @@ from fastapi import Request, Form
 from fastapi.templating import Jinja2Templates
 from pipelines.EAGLE import check_mlr_compliance  # Import the MLR compliance check function
 from pipelines.GAIT import tag_content  # Import the GAIT tagging function
+from dotenv import load_dotenv
+import yaml
+
+# Load environment variables
+load_dotenv()
+
+# Load configuration
+with open('model.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+if config['environment'] == 'aws':
+    from langchain_aws import ChatBedrock
+    import boto3
+
+    llm = ChatBedrock(
+        model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+        model_kwargs=dict(temperature=0.5),
+        client=boto3.client('bedrock-runtime', region_name='us-east-1')
+    )
+else:
+    from langchain_anthropic import ChatAnthropic
+
+    llm = ChatAnthropic(
+        model="claude-3-5-sonnet-20240620",
+        max_retries=2,
+        api_key=os.getenv("ANTHROPIC_API_KEY")
+    )
 
 # Load the taxonomy
 with open('GAIT/config/taxonomy.json', 'r') as f:
     taxonomy = json.load(f)['taxonomy']
-
-llm = ChatAnthropic(
-    model="claude-3-5-sonnet-20240620",
-    max_retries=2
-)
 
 prompt = ChatPromptTemplate.from_messages([
     (

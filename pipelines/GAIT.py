@@ -3,18 +3,40 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 import json
 import os
+import yaml
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Load configuration
+with open('model.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+if config['environment'] == 'aws':
+    from langchain_aws import ChatBedrock
+    import boto3
+
+    llm = ChatBedrock(
+        model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+        model_kwargs=dict(temperature=0.5),
+        client=boto3.client('bedrock-runtime', region_name='us-east-1')
+    )
+else:
+    from langchain_openai import ChatOpenAI
+
+    llm = ChatOpenAI(
+        model="gpt-4o-mini",
+        temperature=0.2,
+        max_tokens=None,
+        timeout=None,
+        max_retries=2,
+        api_key=os.getenv("OPENAI_API_KEY")
+    )
 
 # Load the taxonomy
 with open('GAIT/config/taxonomy.json', 'r') as f:
     taxonomy = json.load(f)['taxonomy']
-
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    temperature=0.2,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
-)
 
 # Create a string representation of the taxonomy for the prompt
 taxonomy_str = "\n".join([

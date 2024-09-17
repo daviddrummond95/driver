@@ -1,12 +1,32 @@
-from langchain_anthropic import ChatAnthropic
-from langchain_core.prompts import ChatPromptTemplate
 import os
+import yaml
+from dotenv import load_dotenv
+from langchain_core.prompts import ChatPromptTemplate
 
+# Load environment variables
+load_dotenv()
 
-llm = ChatAnthropic(
-    model="claude-3-5-sonnet-20240620",
-    max_retries=2
-)
+# Load configuration
+with open('model.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+if config['environment'] == 'aws':
+    from langchain_aws import ChatBedrock
+    import boto3
+
+    llm = ChatBedrock(
+        model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+        model_kwargs=dict(temperature=0.5),
+        client=boto3.client('bedrock-runtime', region_name='us-east-1')
+    )
+else:
+    from langchain_anthropic import ChatAnthropic
+
+    llm = ChatAnthropic(
+        model="claude-3-5-sonnet-20240620",
+        max_retries=2,
+        api_key=os.getenv("ANTHROPIC_API_KEY")
+    )
 
 prompt = ChatPromptTemplate.from_messages([
     (

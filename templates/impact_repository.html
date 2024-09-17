@@ -1,0 +1,21 @@
+<div id="impact-repository">
+    <div id="impact-component-list" class="space-y-2">
+        {% for category, components in impact_repository_items.items() %}
+        <div class="category mb-4">
+            <button class="font-semibold w-full text-left flex items-center justify-between py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200" onclick="toggleCategory(this)">
+                <span>{{ category }}</span>
+                <svg class="w-4 h-4 transform transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+            <ul class="ml-4 mt-2 hidden space-y-2">
+                {% for component in components %}
+                <li class="cursor-pointer bg-white p-2 rounded-lg shadow hover:shadow-md transition-shadow duration-200" onclick="showComponentPerformance('{{ component.id }}')">
+                    {{ component.name }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</div>

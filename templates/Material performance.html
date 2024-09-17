@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Performance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 400px; /* Set a fixed height */
+            width: 100%;
+        }
+        .scrollable-repository {
+            height: calc(100vh - 200px); /* Adjust this value as needed */
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+        }
+        .scrollable-repository::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrollable-repository::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollable-repository::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.5);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    {% include "header.html" %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6 text-blue-600">Material Performance</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Impact Repository -->
+            <div class="md:col-span-1 bg-white p-6 rounded-lg shadow-md scrollable-repository">
+                <h2 class="text-xl font-bold mb-4 text-blue-600">Impact Repository</h2>
+                {% include "impact_repository.html" %}
+            </div>
+            
+            <!-- Performance Display and Component Content -->
+            <div class="md:col-span-2">
+                <div id="performance-display" class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <h2 class="text-xl font-bold mb-4 text-blue-600">Component Performance</h2>
+                    <p id="no-selection" class="text-gray-500">Select a component to view its performance.</p>
+                    <div id="performance-data" class="hidden">
+                        <h3 id="component-name" class="text-lg font-semibold mb-2"></h3>
+                        <div id="component-tags" class="mb-4"></div>
+                        <h4 class="text-md font-medium mb-2">Click Through Rate by HCP Persona</h4>
+                        <div class="chart-container">
+                            <canvas id="ctr-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Component Content Display -->
+                <div id="component-content" class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold mb-4 text-blue-600">Component Content</h2>
+                    <div id="component-content-display"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    let chart = null;
+
+    function toggleCategory(button) {
+        const categoryList = button.nextElementSibling;
+        const icon = button.querySelector('svg');
+        categoryList.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+    }
+
+    function showComponentPerformance(componentId) {
+        console.log("Fetching performance for component:", componentId);
+        document.getElementById('no-selection').classList.add('hidden');
+        document.getElementById('performance-data').classList.remove('hidden');
+        
+        // Encode the component ID for the URL
+        const encodedComponentId = encodeURIComponent(componentId);
+        
+        // Fetch performance data
+        fetch(`/components/api/component-performance/${encodedComponentId}`, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json'
+            }
+        })
+            .then(response => {
+                console.log("Response status:", response.status);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Received data:", data);
+                document.getElementById('component-name').textContent = data.name;
+                
+                // Display tags
+                const tagsContainer = document.getElementById('component-tags');
+                tagsContainer.innerHTML = '';
+                if (data.tags && Object.keys(data.tags).length > 0) {
+                    for (const [category, tagList] of Object.entries(data.tags)) {
+                        const categoryElement = document.createElement('div');
+                        categoryElement.className = 'mb-2';
+                        categoryElement.innerHTML = `<strong>${category}:</strong> `;
+                        tagList.forEach((tag, index) => {
+                            const tagElement = document.createElement('span');
+                            tagElement.className = 'inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2 mb-1';
+                            tagElement.textContent = tag;
+                            categoryElement.appendChild(tagElement);
+                        });
+                        tagsContainer.appendChild(categoryElement);
+                    }
+                } else {
+                    tagsContainer.textContent = 'No tags available';
+                }
+                
+                const ctx = document.getElementById('ctr-chart').getContext('2d');
+                
+                if (chart) {
+                    chart.destroy();
+                }
+                
+                chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.personas,
+                        datasets: [{
+                            label: 'Click Through Rate (%)',
+                            data: data.ctr_values,
+                            backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 10, // Set a fixed maximum value for the y-axis
+                                title: {
+                                    display: true,
+                                    text: 'CTR (%)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'HCP Persona'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('component-name').textContent = 'Error loading component data';
+                document.getElementById('ctr-chart').innerHTML = 'Failed to load performance data for this component.';
+            });
+        
+        // Fetch component content
+        fetch(`/components/component/${encodedComponentId}`, {
+            method: 'GET',
+            headers: {
+                'accept': 'text/html'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('component-content-display').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('component-content-display').innerHTML = 'Failed to load component content.';
+            });
+    }
+    </script>
+</body>
+</html>

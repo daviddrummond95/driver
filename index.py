@@ -129,6 +129,9 @@ async def content_gen_feature(request: Request):
 from editor.index import router as editor_router
 app.include_router(editor_router, prefix="/editor")
 
+from components.index import router as component_router
+app.include_router(component_router, prefix="/components")
+
 # Add this new endpoint to retrieve generated components
 @app.get("/editor/")
 async def editor_page(request: Request, email_id: str):
@@ -142,4 +145,4 @@ async def editor_page(request: Request, email_id: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
