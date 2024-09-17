@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRIVER Component Assembly Diagram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        .highlight {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                fill-opacity: 0.5;
+            }
+            50% {
+                fill-opacity: 1;
+            }
+            100% {
+                fill-opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">DRIVER Component Assembly Process</h1>
+        
+        <div class="mermaid-wrapper">
+            <pre class="mermaid">
+                %%{init: {'theme': 'neutral', 'themeVariables': { 'fontSize': '16px'}}}%%
+                graph TD
+                    subgraph AI_Generation["AI Generation"]
+                        A[User Prompt] --> B[AI Engine]
+                        B --> C[Generated Components]
+                    end
+                    
+                    subgraph Component_Repository["Component Repository"]
+                        D[Pre-built Components]
+                        E[Tagged Components]
+                        F[Performance Metrics]
+                    end
+                    
+                    subgraph Interactive_Editor["Interactive Editor"]
+                        G[Drag and Drop Interface]
+                        H[Real-time Editing]
+                    end
+                    
+                    subgraph Compliance_Checks["Compliance Checks"]
+                        I[MLR Compliance]
+                        J[GAIT Tagging]
+                    end
+                    
+                    subgraph Final_Assembly["Final Assembly"]
+                        K[Component Integration]
+                        L[Layout Finalization]
+                    end
+                    
+                    C --> G
+                    D --> G
+                    E --> G
+                    F --> G
+                    G --> H
+                    H --> I
+                    I --> J
+                    J --> K
+                    K --> L
+                    
+                    classDef highlight fill:#f9f,stroke:#333,stroke-width:4px;
+            </pre>
+        </div>
+        
+        <div class="mt-8 space-y-4">
+            <p id="section1" class="text-lg">The DRIVER component assembly process begins with AI-powered generation based on user prompts. This creates a set of initial components tailored to the user's needs.</p>
+            <p id="section2" class="text-lg">Next, these generated components are combined with pre-built components from our extensive repository. Each component in the repository is tagged and comes with performance metrics to guide selection.</p>
+            <p id="section3" class="text-lg">Users can then fine-tune their email using our interactive editor, which features a drag-and-drop interface and real-time editing capabilities.</p>
+            <p id="section4" class="text-lg">Before finalization, the content undergoes rigorous compliance checks. This includes MLR (Medical Legal Review) compliance and GAIT (Global Attribute Identification Taxonomy) tagging to ensure regulatory adherence and proper content classification.</p>
+            <p id="section5" class="text-lg">Finally, all components are integrated and the layout is finalized, resulting in a polished, compliant, and effective email campaign ready for distribution.</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+
+        function highlightSection(sectionId) {
+            // Remove highlight from all nodes
+            document.querySelectorAll('.mermaid g.node').forEach(node => {
+                node.classList.remove('highlight');
+            });
+
+            // Add highlight to specific nodes based on section
+            switch(sectionId) {
+                case 'section1':
+                    document.querySelectorAll('.mermaid g.node:nth-child(-n+3)').forEach(node => {
+                        node.classList.add('highlight');
+                    });
+                    break;
+                case 'section2':
+                    document.querySelectorAll('.mermaid g.node:nth-child(n+4):nth-child(-n+6)').forEach(node => {
+                        node.classList.add('highlight');
+                    });
+                    break;
+                case 'section3':
+                    document.querySelectorAll('.mermaid g.node:nth-child(n+7):nth-child(-n+8)').forEach(node => {
+                        node.classList.add('highlight');
+                    });
+                    break;
+                case 'section4':
+                    document.querySelectorAll('.mermaid g.node:nth-child(n+9):nth-child(-n+10)').forEach(node => {
+                        node.classList.add('highlight');
+                    });
+                    break;
+                case 'section5':
+                    document.querySelectorAll('.mermaid g.node:nth-child(n+11)').forEach(node => {
+                        node.classList.add('highlight');
+                    });
+                    break;
+            }
+        }
+
+        // Intersection Observer to trigger highlighting
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    highlightSection(entry.target.id);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe all sections
+        document.querySelectorAll('p[id^="section"]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

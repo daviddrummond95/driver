@@ -42,6 +42,77 @@
             max-width: 600px;
             border-radius: 10px;
         }
+        .flow-diagram {
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .flow-step {
+            background-color: #f0f4f8;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .flow-step::after {
+            content: "↓";
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            font-size: 1.5rem;
+            color: #4a5568;
+        }
+        .flow-step:last-child::after {
+            content: none;
+        }
+        .roadmap-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .roadmap-item {
+            padding: 20px 30px;
+            position: relative;
+            background-color: white;
+            border-radius: 6px;
+            width: 45%;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .roadmap-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid #93C5FD;
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .roadmap-item.left {
+            left: 0;
+        }
+        .roadmap-item.right {
+            left: 55%;
+        }
+        .roadmap-item.right::after {
+            left: -10px;
+        }
+        .roadmap-item .content {
+            padding: 20px;
+        }
+        .feature-point {
+            transition: transform 0.3s ease, z-index 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-point:hover {
+            transform: scale(1.2);
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .feature-point:hover .bg-blue-100 {
+            font-size: 110%;  /* Increase font size by 10% on hover */
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -54,45 +125,168 @@
             <div id="ai-generation" class="feature-card bg-blue-100 p-6 rounded-lg shadow-md animate-fade-in cursor-pointer" style="animation-delay: 0.1s;">
                 <i class="fas fa-robot text-4xl text-blue-500 mb-4"></i>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">AI-Powered Generation</h2>
-                <p class="text-gray-700">Craft personalized emails with our advanced AI engine.</p>
+                <p class="text-gray-700">Craft personalized emails with our advanced AI engine, including content structure and component generation.</p>
             </div>
 
             <div class="feature-card bg-green-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.2s;">
                 <i class="fas fa-edit text-4xl text-green-500 mb-4"></i>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">Interactive Editor</h2>
-                <p class="text-gray-700">Fine-tune your emails with our intuitive drag-and-drop interface.</p>
+                <p class="text-gray-700">Fine-tune your emails with our intuitive drag-and-drop interface and real-time component editing.</p>
             </div>
 
             <div class="feature-card bg-yellow-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.3s;">
                 <i class="fas fa-box-open text-4xl text-yellow-500 mb-4"></i>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">Component Repository</h2>
-                <p class="text-gray-700">Access a library of responsive, pre-built email components.</p>
+                <p class="text-gray-700">Access a library of responsive, pre-built email components with tagging and performance tracking.</p>
             </div>
 
             <div class="feature-card bg-red-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.4s;">
                 <i class="fas fa-user-lock text-4xl text-red-500 mb-4"></i>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">Session Management</h2>
-                <p class="text-gray-700">Enjoy uninterrupted workflow with robust session handling.</p>
+                <p class="text-gray-700">Enjoy uninterrupted workflow with robust session handling and email caching.</p>
             </div>
 
             <div class="feature-card bg-purple-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.5s;">
                 <i class="fas fa-cloud-upload-alt text-4xl text-purple-500 mb-4"></i>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">PromoMats Integration</h2>
-                <p class="text-gray-700">Seamlessly upload and manage your email campaigns.</p>
+                <p class="text-gray-700">Seamlessly upload and manage your email campaigns with PromoMats integration.</p>
             </div>
 
             <div class="feature-card bg-indigo-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.6s;">
                 <i class="fas fa-chart-line text-4xl text-indigo-500 mb-4"></i>
-                <h2 class="text-xl font-semibold text-gray-800 mb-2">Omnichannel Strategy</h2>
-                <p class="text-gray-700">Create cohesive marketing across all customer touchpoints.</p>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Performance Analytics</h2>
+                <p class="text-gray-700">Track and analyze component performance with detailed CTR metrics and persona-based insights.</p>
+            </div>
+
+            <div class="feature-card bg-pink-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.7s;">
+                <i class="fas fa-shield-alt text-4xl text-pink-500 mb-4"></i>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">MLR Compliance</h2>
+                <p class="text-gray-700">Ensure Medical Legal Review compliance with automated content checks and recommendations.</p>
+            </div>
+
+            <div class="feature-card bg-teal-100 p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.8s;">
+                <i class="fas fa-tags text-4xl text-teal-500 mb-4"></i>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">GAIT</h2>
+                <p class="text-gray-700">Automatically tag content using Generative AI for better organization and searchability.</p>
             </div>
         </div>
 
-        <div class="text-center mt-12 animate-fade-in" style="animation-delay: 0.7s;">
+        <div class="text-center mt-12 animate-fade-in" style="animation-delay: 0.9s;">
             <h2 class="text-3xl font-bold mb-4 text-gray-800">Your End-to-End Email Solution</h2>
             <p class="text-xl text-gray-700">
                 Experience the power of intelligent, integrated email marketing with DRIVER.
             </p>
+        </div>
+
+        <!-- Flow Diagram -->
+        <div class="flow-diagram mt-16">
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Creating New Material from Components</h2>
+            <div class="flow-step">
+                <h3 class="font-semibold">1. AI-Powered Generation</h3>
+                <p>Generate email structure and components based on user prompt and requirements</p>
+            </div>
+            <div class="flow-step">
+                <h3 class="font-semibold">2. Component Selection</h3>
+                <p>Choose from AI-generated components or select from the component repository</p>
+            </div>
+            <div class="flow-step">
+                <h3 class="font-semibold">3. Interactive Editing</h3>
+                <p>Fine-tune components and arrange them in the email editor</p>
+            </div>
+            <div class="flow-step">
+                <h3 class="font-semibold">4. MLR Compliance Check</h3>
+                <p>Automatically review content for Medical Legal Review compliance</p>
+            </div>
+            <div class="flow-step">
+                <h3 class="font-semibold">5. GAIT Tagging</h3>
+                <p>Apply Gen AI tagging to the content</p>
+            </div>
+            <div class="flow-step">
+                <h3 class="font-semibold">6. Finalization</h3>
+                <p>Review the complete email and make any final adjustments</p>
+            </div>
+            <div class="flow-step">
+                <h3 class="font-semibold">7. PromoMats Upload</h3>
+                <p>Upload the finalized email to PromoMats for campaign management</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quadrant Chart -->
+    <div class="container mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Future Features</h2>
+        <div class="relative w-full h-[600px] border-2 border-gray-300">
+            <!-- Axis labels -->
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6 text-sm font-semibold">High Impact</div>
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-6 text-sm font-semibold">Low Impact</div>
+            <div class="absolute top-1/2 right-0 transform translate-x-6 -translate-y-1/2 text-sm font-semibold" style="writing-mode: vertical-rl; text-orientation: mixed;">High Complexity</div>
+            <div class="absolute top-1/2 left-0 transform -translate-x-6 -translate-y-1/2 text-sm font-semibold" style="writing-mode: vertical-rl; text-orientation: mixed;">Low Complexity</div>
+            
+            <!-- Axes -->
+            <div class="absolute top-0 bottom-0 left-1/2 w-px bg-gray-300"></div>
+            <div class="absolute left-0 right-0 top-1/2 h-px bg-gray-300"></div>
+            
+            <!-- Feature points -->
+            <div class="feature-point absolute top-[5%] left-[30%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Advanced Personalization</div>
+            </div>
+            <div class="feature-point absolute top-[15%] left-[20%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">A/B Testing</div>
+            </div>
+            <div class="feature-point absolute top-[40%] left-[70%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Multi-language Support</div>
+            </div>
+            <div class="feature-point absolute top-[25%] left-[40%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Analytics Dashboard</div>
+            </div>
+            <div class="feature-point absolute top-[35%] left-[60%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Integration Ecosystem</div>
+            </div>
+            <div class="feature-point absolute top-[20%] left-[35%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Dynamic Content</div>
+            </div>
+            <div class="feature-point absolute top-[10%] left-[25%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Subject Line Optimizer</div>
+            </div>
+            <div class="feature-point absolute top-[30%] left-[45%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Segmentation Tools</div>
+            </div>
+            <div class="feature-point absolute top-[45%] left-[55%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Workflow Builder</div>
+            </div>
+            <div class="feature-point absolute top-[35%] left-[30%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Send-Time Optimization</div>
+            </div>
+            <div class="feature-point absolute top-[55%] left-[40%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Interactive Elements</div>
+            </div>
+            <div class="feature-point absolute top-[70%] left-[25%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Spam Score Analyzer</div>
+            </div>
+            <div class="feature-point absolute top-[50%] left-[65%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">AI Image Creation</div>
+            </div>
+            <div class="feature-point absolute top-[40%] left-[50%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Sentiment Analysis</div>
+            </div>
+            <div class="feature-point absolute top-[60%] left-[35%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Content Curation</div>
+            </div>
+            <div class="feature-point absolute top-[25%] left-[55%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Campaign Synchronization</div>
+            </div>
+            <div class="feature-point absolute top-[15%] left-[45%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Interactive Slides</div>
+            </div>
+            <div class="feature-point absolute top-[75%] left-[30%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Banner Support</div>
+            </div>
+            <div class="feature-point absolute top-[15%] left-[80%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Orchestration Engine</div>
+            </div>
+            <div class="feature-point absolute top-[15%] left-[5%]">
+                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">MMM Integration</div>
+            </div>
         </div>
     </div>
 
