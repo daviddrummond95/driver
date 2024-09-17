@@ -180,7 +180,7 @@
 
         function openNewComponentPage() {
             const emailId = '{{ email_id }}';
-            window.open(`/editor/component/new_component?email_id=${emailId}`, '_blank');
+            window.location.href = `/editor/?new_component=true&email_id=${emailId}`;
         }
 
         // Remove or comment out the openNewComponentModal function and related code
@@ -237,9 +237,11 @@
                 <div id="email-content" class="bg-white p-4 rounded-lg border-2 border-dashed border-gray-300" ondrop="drop(event)" ondragover="allowDrop(event)">
                     <div id="phantom-top" class="phantom-component rounded"></div>
                     {% for component in generated_email_components %}
-                        <div class="relative bg-gray-100 p-2 rounded mb-2 component-wrapper" draggable="true" ondragstart="drag(event)">
+                        <div class="relative bg-gray-100 p-2 rounded mb-2 component-wrapper" draggable="true" ondragstart="drag(event)" id="wrapper-{{ loop.index }}">
                             <button class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs" onclick="this.parentElement.remove()">&times;</button>
-                            <div class="pr-6">{{ component | safe }}</div>
+                            <div class="pr-6">
+                                {{ component | safe }}
+                            </div>
                             <div class="drop-zone drop-zone-top"></div>
                             <div class="drop-zone drop-zone-bottom"></div>
                         </div>

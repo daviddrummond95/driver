@@ -1,13 +1,13 @@
-from fastapi import APIRouter, Request, HTTPException, Form, Depends
+from fastapi import APIRouter, Request, HTTPException, Form, Depends, WebSocket
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 import os
-from pipelines.new_material import generate_email
 from shared import email_cache
 from editor.component.index import router as component_router
 from editor.utils import get_repository_items
 import logging
 import uuid
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +24,14 @@ async def read_root(request: Request):
     generated_email_components = []
     if email_id in email_cache:
         logger.info(f"Found generated email components with ID {email_id}")
-        generated_email_components = [get_component_content(component_id) for component_id in email_cache[email_id]]
+        generated_email_components = [get_component_content(component_id) for component_id in email_cache[email_id].get("components", [])]
     else:
         logger.info(f"No generated email found for ID {email_id}")
+    
+    # Check if the 'new_component' query parameter is present
+    if request.query_params.get("new_component"):
+        return RedirectResponse(url=f"/editor/component/new_component?email_id={email_id}")
+    
     return templates.TemplateResponse("constructor.html", {
         "request": request, 
         "generated_email_components": generated_email_components,
@@ -35,13 +40,13 @@ async def read_root(request: Request):
 
 def get_component_content(component_id):
     try:
-        category, component_name = component_id.split('-', 1)
+        category, component_name = component_id.split('/', 1)
     except ValueError:
-        # If the component_id doesn't contain a hyphen, use it as the component_name
+        # If the component_id doesn't contain a slash, use it as the component_name
         category = "unknown"
         component_name = component_id
 
-    file_path = f"material_repo/{category}/{component_name}.html"
+    file_path = f"material_repo/{category}/{component_name}"
     
     if not os.path.exists(file_path):
         return f"<p>Component not found: {component_id}</p>"
@@ -91,15 +96,27 @@ async def get_document(request: Request):
 
 @router.post("/generate-email")
 async def generate_email_endpoint(
+    request: Request,
     prompt: str = Form(...),
     content_purposes: str = Form(...),
     key_messages: str = Form(...)
 ):
-    content_purposes = [p.strip() for p in content_purposes.split(',')]
-    key_messages = [m.strip() for m in key_messages.split(',')]
-    
-    email_html = generate_email(prompt, content_purposes, key_messages)
-    return HTMLResponse(content=email_html)
+    try:
+        # Generate a unique ID for this email
+        email_id = str(uuid.uuid4())
+        
+        # Store the email ID and generation parameters in the email_cache
+        email_cache[email_id] = {
+            "prompt": prompt,
+            "content_purposes": content_purposes.split(','),
+            "key_messages": key_messages.split(',')
+        }
+        
+        logger.info(f"Email generation initiated for email_id: {email_id}")
+        return JSONResponse({"email_id": email_id})
+    except Exception as e:
+        logger.error(f"Error initiating email generation: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/component/{component_id}", response_class=HTMLResponse)
 async def get_component(component_id: str):
@@ -158,4 +175,8 @@ async def update_cache(data: dict):
         logger.error(f"Error updating email cache: {str(e)}")
         return JSONResponse({"success": False, "message": f"Failed to update email cache: {str(e)}"}, status_code=500)
 
+@router.get("/component/new_component", response_class=HTMLResponse)
+async def new_component_page(request: Request):
+    email_id = request.query_params.get("email_id")
+    return templates.TemplateResponse("new_component_page.html", {"request": request, "email_id": email_id})
 

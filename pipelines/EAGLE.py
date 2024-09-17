@@ -1,12 +1,11 @@
-from langchain_groq import ChatGroq
+from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
+import os
 
-llm = ChatGroq(
-    model="llama3-70b-8192",
-    temperature=0.2,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
+
+llm = ChatAnthropic(
+    model="claude-3-5-sonnet-20240620",
+    max_retries=2
 )
 
 prompt = ChatPromptTemplate.from_messages([
@@ -22,6 +21,31 @@ prompt = ChatPromptTemplate.from_messages([
         {html_content}
 
         Analyze the content and provide a detailed report on any compliance issues found. If there are no issues, state that the content is compliant.
+
+        Please respond in the proper HTML format and include a recommended new component that can be added to the page to fix the issues found.
+
+        Example Output:
+        <div class="mlr-review">
+            <h3 class="text-lg font-semibold mb-2">MLR Compliance Report</h3>
+            <h4 class="text-md font-semibold mb-1">Product Information Accuracy:</h4>
+            <p>No issues found.</p>
+            <h4 class="text-md font-semibold mb-1">Fair Balance:</h4>
+            <p>No issues found.</p>
+            <h4 class="text-md font-semibold mb-1">No Misleading Statements:</h4>
+            <p>No issues found.</p>
+            <h4 class="text-md font-semibold mb-1">No Unsubstantiated Benefits:</h4>
+            <p>No issues found.</p>
+            <h4 class="text-md font-semibold mb-1">Regulatory Requirements:</h4>
+            <p>No issues found.</p>
+            <h4 class="text-md font-semibold mb-1">Target Audience Appropriateness:</h4>
+            <p>Not appropriate for the target audience. This content is too complex for the intended audience. The wording is too technical and the content is not tailored to the needs of the target audience.</p>
+            <div class="recommended-component">
+                <h4 class="text-md font-semibold mb-1">Recommended Component</h4>
+                <div class="component-content">
+                    <!-- Content of the recommended component -->
+                </div>
+            </div>
+        </div>
         """
     )
 ])

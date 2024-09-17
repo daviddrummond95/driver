@@ -1,13 +1,17 @@
-from fastapi import FastAPI, Request, Form, HTTPException
+from fastapi import FastAPI, Request, Form, HTTPException, WebSocket
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pipelines.new_material import generate_email
+from pipelines.new_material import generate_email_structure, generate_email_components
+from pipelines.new_component import new_component_page, generate_components
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse
 import secrets
 import uuid
 from shared import email_cache
+import os
+import asyncio
+import json
 
 # Set up logging
 import logging
@@ -39,27 +43,72 @@ async def read_root(request: Request):
 async def generate_email_endpoint(
     request: Request,
     prompt: str = Form(...),
-    content_purposes: list = Form(...),
-    key_messages: list = Form(...)
+    content_purposes: list = Form(None),
+    key_messages: list = Form(None)
 ):
     try:
-        ordered_ids = generate_email(prompt, content_purposes, key_messages)
-        logger.info("Email components generated successfully")
-        
-        # Generate a unique ID for this email
         email_id = str(uuid.uuid4())
         
-        # Store the ordered component IDs in the cache
-        email_cache[email_id] = ordered_ids
+        email_cache[email_id] = {
+            "prompt": prompt,
+            "content_purposes": content_purposes if content_purposes else None,
+            "key_messages": key_messages if key_messages else None,
+            "components": []  # Initialize an empty list to store generated components
+        }
         
-        # Store the email ID in the session
-        request.session["email_id"] = email_id
+        logger.info(f"Email generation initiated for email_id: {email_id}")
+        logger.info(f"Prompt: {prompt}")
+        logger.info(f"Content purposes: {content_purposes}")
+        logger.info(f"Key messages: {key_messages}")
         
-        logger.info(f"Email ID {email_id} stored in session")
-        return RedirectResponse(url=f"/editor/?email_id={email_id}", status_code=303)
+        return RedirectResponse(url=f"/processing/?email_id={email_id}", status_code=303)
     except Exception as e:
-        logger.error(f"Error generating email: {str(e)}")
+        logger.error(f"Error initiating email generation: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/processing/")
+async def processing_page(request: Request, email_id: str):
+    return templates.TemplateResponse("processing.html", {"request": request, "email_id": email_id})
+
+@app.websocket("/ws/{email_id}")
+async def websocket_endpoint(websocket: WebSocket, email_id: str):
+    await websocket.accept()
+    try:
+        logger.info(f"WebSocket connection established for email_id: {email_id}")
+
+        email_data = email_cache.get(email_id, {})
+        prompt = email_data.get("prompt")
+        content_purposes = email_data.get("content_purposes")
+        key_messages = email_data.get("key_messages")
+
+        if not prompt:
+            raise ValueError(f"No prompt found for email_id: {email_id}")
+
+        ordered_types = await generate_email_structure(prompt, content_purposes, key_messages)
+        await websocket.send_json({"type": "ordered_types", "data": ordered_types})
+
+        generated_components = []
+        async for component in generate_email_components(prompt, ordered_types, content_purposes, key_messages):
+            if component['type'] == 'component':
+                generated_components.append(component['data'])
+                await websocket.send_json({"type": "component_generated", "data": component['data']})
+            elif component['type'] == 'complete':
+                email_cache[email_id]["components"] = generated_components
+                await websocket.send_json({"type": "generation_complete", "email_id": email_id, "components": generated_components})
+
+    except Exception as e:
+        logger.error(f"Error in WebSocket: {str(e)}")
+        await websocket.send_json({"type": "error", "message": str(e)})
+    finally:
+        await websocket.close()
+
+@app.get("/new-component")
+async def new_component(request: Request):
+    return await new_component_page(request)
+
+@app.post("/generate-component")
+async def generate_component(request: Request, prompt: str = Form(...), component_type: str = Form(...)):
+    return await generate_components(request, prompt, component_type)
 
 @app.get("/test-session")
 async def test_session(request: Request):
@@ -79,6 +128,17 @@ async def content_gen_feature(request: Request):
 # Import the editor router after defining the app
 from editor.index import router as editor_router
 app.include_router(editor_router, prefix="/editor")
+
+# Add this new endpoint to retrieve generated components
+@app.get("/editor/")
+async def editor_page(request: Request, email_id: str):
+    email_data = email_cache.get(email_id, {})
+    generated_components = email_data.get("components", [])
+    return templates.TemplateResponse("constructor.html", {
+        "request": request,
+        "email_id": email_id,
+        "generated_email_components": generated_components
+    })
 
 if __name__ == "__main__":
     import uvicorn

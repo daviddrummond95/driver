@@ -3,10 +3,6 @@
     <div id="generatedComponentWrapper" class="bg-white p-4 rounded-lg border mb-4">
         {{ component.content | safe }}
     </div>
-    <div class="mt-2 mb-4">
-        <h4 class="font-semibold">MLR Compliance:</h4>
-        <pre class="bg-gray-100 p-2 rounded">{{ component.compliance_result | tojson(indent=2) }}</pre>
-    </div>
 {% endfor %}
 
 <script>

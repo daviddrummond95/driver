@@ -7,6 +7,8 @@ import sqlite3
 
 from pipelines.new_component import new_component_page, generate_components
 from editor.utils import get_repository_items  # Import from utils instead of editor.index
+from pipelines.EAGLE import check_mlr_compliance
+from pipelines.GAIT import tag_content  # Import the GAIT tagging function
 
 import logging
 logger = logging.getLogger(__name__)
@@ -17,13 +19,32 @@ templates = Jinja2Templates(directory="templates")
 
 DB_PATH = 'data/components.db'
 
+# Load the taxonomy
+with open('GAIT/config/taxonomy.json', 'r') as f:
+    taxonomy = json.load(f)['taxonomy']
+
 @router.get("/new_component", response_class=HTMLResponse)
 async def new_component(request: Request):
     return await new_component_page(request)
 
-@router.post("/generate_component", response_class=HTMLResponse)
+@router.post("/generate_component", response_class=JSONResponse)
 async def generate_component(request: Request, prompt: str = Form(...), component_type: str = Form(...)):
-    return await generate_components(request, prompt, component_type)
+    generated_component_response = await generate_components(request, prompt, component_type)
+    
+    # Extract the HTML content from the _TemplateResponse
+    generated_component_html = generated_component_response.body.decode()
+    
+    mlr_review = check_mlr_compliance(generated_component_html)
+    
+    # Tag content using GAIT
+    gait_tags = tag_content(generated_component_html)
+    
+    return JSONResponse({
+        "component": generated_component_html,
+        "mlr_review": mlr_review,
+        "gait_tags": gait_tags,  # Include GAIT tags in the response
+        "taxonomy": taxonomy  # Include taxonomy in the response
+    })
 
 @router.post("/add_to_repository")
 async def add_to_repository(request: Request, component_type: str = Form(...), content: str = Form(...), tags: str = Form(...)):

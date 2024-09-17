@@ -53,6 +53,23 @@
                     </div>
                 </div>
                 <button id="addToRepositoryBtn" onclick="addToRepository()" class="mt-4 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" style="display: none;">Add to Repository</button>
+                
+                <!-- New MLR Review section -->
+                <h2 class="text-xl font-semibold mb-2 mt-6">MLR Review</h2>
+                <div id="mlrReviewWrapper" class="bg-white p-4 rounded-lg border">
+                    <div id="mlrReviewContent">
+                        <!-- MLR review content will be inserted here -->
+                    </div>
+                </div>
+                <button id="acceptRevisedVersionBtn" onclick="acceptRevisedVersion()" class="mt-4 fractal-bg-blue text-white px-4 py-2 rounded hover:bg-blue-600" style="display: none;">Accept Revised Version</button>
+                
+                <!-- New GAIT Tags section -->
+                <h2 class="text-xl font-semibold mb-2 mt-6">GAIT Tags</h2>
+                <div id="gaitTagsWrapper" class="bg-white p-4 rounded-lg border">
+                    <div id="gaitTagsContent">
+                        <!-- GAIT tags content will be inserted here -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,10 +84,28 @@
                 method: 'POST',
                 body: formData
             });
-            const result = await response.text();
-            document.getElementById('generatedComponentWrapper').innerHTML = result;
+            const result = await response.json();
+            document.getElementById('generatedComponentWrapper').innerHTML = result.component;
+            document.getElementById('mlrReviewContent').innerHTML = result.mlr_review;
+            document.getElementById('gaitTagsContent').innerHTML = generateGaitTagsForm(result.gait_tags, result.taxonomy);  // Display GAIT tags as form
             document.getElementById('addToRepositoryBtn').style.display = 'block';
+            document.getElementById('acceptRevisedVersionBtn').style.display = 'block';
         });
+
+        function generateGaitTagsForm(gaitTags, taxonomy) {
+            let formHtml = '<form id="gaitTagsForm">';
+            for (const field of taxonomy) {
+                formHtml += `<label for="${field.field}" class="block mb-1">${field.field}</label>`;
+                formHtml += `<select id="${field.field}" name="${field.field}" class="w-full p-2 border rounded" multiple>`;
+                for (const value of field.values) {
+                    const selected = gaitTags[field.field] && gaitTags[field.field].includes(value.value) ? 'selected' : '';
+                    formHtml += `<option value="${value.value}" ${selected}>${value.value}</option>`;
+                }
+                formHtml += `</select><br>`;
+            }
+            formHtml += '</form>';
+            return formHtml;
+        }
 
         function addToRepository() {
             const componentType = document.getElementById('component_type').value;
@@ -82,6 +117,14 @@
             }
 
             const content = componentContent.innerHTML;
+            const gaitTagsForm = new FormData(document.getElementById('gaitTagsForm'));
+            const tags = {};
+            gaitTagsForm.forEach((value, key) => {
+                if (!tags[key]) {
+                    tags[key] = [];
+                }
+                tags[key].push(value);
+            });
 
             fetch('/editor/component/add_to_repository', {
                 method: 'POST',
@@ -90,7 +133,8 @@
                 },
                 body: new URLSearchParams({
                     'component_type': componentType,
-                    'content': content
+                    'content': content,
+                    'tags': JSON.stringify(tags)
                 })
             })
             .then(response => response.json())
@@ -110,6 +154,12 @@
                 console.error('Error:', error);
                 alert('An error occurred while adding the component');
             });
+        }
+
+        function acceptRevisedVersion() {
+            const revisedContent = document.querySelector('#mlrReviewContent .recommended-component .component-content').innerHTML;
+            document.getElementById('generatedComponentWrapper').innerHTML = revisedContent;
+            document.getElementById('addToRepositoryBtn').style.display = 'block';
         }
     </script>
 </body>

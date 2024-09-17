@@ -1,0 +1,406 @@
+{
+    "taxonomy": [
+      {
+        "field": "Content Type",
+        "values": [
+          {
+            "value": "Product Monograph",
+            "definition": "Comprehensive document detailing all aspects of a drug product"
+          },
+          {
+            "value": "Clinical Study Report",
+            "definition": "Detailed report of clinical trial results"
+          },
+          {
+            "value": "Sales Aid",
+            "definition": "Visual aid used by sales representatives during HCP interactions"
+          },
+          {
+            "value": "Patient Brochure",
+            "definition": "Educational material designed for patients"
+          },
+          {
+            "value": "KOL Presentation",
+            "definition": "Slides or materials for presentations by Key Opinion Leaders"
+          }
+        ]
+      },
+      {
+        "field": "Target Audience",
+        "values": [
+          {
+            "value": "Oncologists",
+            "definition": "Physicians specializing in cancer treatment"
+          },
+          {
+            "value": "General Practitioners",
+            "definition": "Primary care physicians"
+          },
+          {
+            "value": "Nurses",
+            "definition": "Healthcare professionals providing nursing care"
+          },
+          {
+            "value": "Pharmacists",
+            "definition": "Healthcare professionals specializing in medications"
+          },
+          {
+            "value": "Patients",
+            "definition": "Individuals receiving or considering treatment"
+          }
+        ]
+      },
+      {
+        "field": "Disease Area",
+        "values": [
+          {
+            "value": "Breast Cancer",
+            "definition": "Cancer originating in breast tissue"
+          },
+          {
+            "value": "Lung Cancer",
+            "definition": "Cancer originating in lung tissue"
+          },
+          {
+            "value": "Colorectal Cancer",
+            "definition": "Cancer of the colon or rectum"
+          },
+          {
+            "value": "Leukemia",
+            "definition": "Cancer of blood-forming tissues"
+          },
+          {
+            "value": "Melanoma",
+            "definition": "Skin cancer developing from melanocytes"
+          }
+        ]
+      },
+      {
+        "field": "Product Name",
+        "values": [
+          {
+            "value": "Oncozen",
+            "definition": "Hypothetical precision cancer treatment drug"
+          }
+        ]
+      },
+      {
+        "field": "Key Message",
+        "values": [
+          {
+            "value": "Efficacy breakthrough",
+            "definition": "Highlighting significant improvements in treatment outcomes compared to existing standards"
+          },
+          {
+            "value": "Precision medicine",
+            "definition": "Emphasizing the drug's ability to target specific patient subgroups or genetic profiles for optimal results"
+          },
+          {
+            "value": "Quality of life focus",
+            "definition": "Stressing the drug's positive impact on patients' overall wellbeing and daily functioning"
+          },
+          {
+            "value": "Innovative mechanism",
+            "definition": "Showcasing the unique or novel way the drug works to address the disease"
+          },
+          {
+            "value": "Practice-changing potential",
+            "definition": "Indicating how the drug could significantly alter current treatment approaches or guidelines"
+          },
+          {
+            "value": "Simplified treatment regimen",
+            "definition": "Highlighting ease of use, reduced dosing frequency, or improved administration methods"
+          },
+          {
+            "value": "Synergistic combinations",
+            "definition": "Focusing on the drug's potential to enhance efficacy when used with other treatments"
+          },
+          {
+            "value": "Robust safety profile",
+            "definition": "Emphasizing the drug's favorable risk-benefit ratio or reduced side effects"
+          },
+          {
+            "value": "Cost-effective innovation",
+            "definition": "Stressing the drug's value proposition in terms of both clinical and economic benefits"
+          },
+          {
+            "value": "Personalized patient support",
+            "definition": "Highlighting comprehensive services or programs designed to assist individual patients"
+          },
+          {
+            "value": "Continuous innovation",
+            "definition": "Emphasizing ongoing research and development efforts to expand the drug's applications"
+          },
+          {
+            "value": "Real-world reliability",
+            "definition": "Focusing on the drug's proven effectiveness in everyday clinical practice settings"
+          }
+        ]
+      },
+      {
+        "field": "Content Purpose",
+        "values": [
+          {
+            "value": "Clinical efficacy",
+            "definition": "Information demonstrating the drug's effectiveness in treating the target condition based on clinical trial results"
+          },
+          {
+            "value": "Safety profile",
+            "definition": "Details about the drug's side effects, contraindications, and overall safety considerations"
+          },
+          {
+            "value": "Mechanism of action",
+            "definition": "Explanation of how the drug works at a molecular or cellular level to produce its therapeutic effect"
+          },
+          {
+            "value": "Patient selection",
+            "definition": "Guidance on identifying suitable patients for the treatment, including biomarkers or diagnostic criteria"
+          },
+          {
+            "value": "Administration and dosing",
+            "definition": "Instructions on how to properly administer the drug, including dosage, frequency, and route of administration"
+          },
+          {
+            "value": "Comparative data",
+            "definition": "Information comparing the drug's performance to other treatments or standard of care"
+          },
+          {
+            "value": "Cost-effectiveness",
+            "definition": "Analysis of the drug's economic value, including its cost relative to its benefits"
+          },
+          {
+            "value": "Guidelines and recommendations",
+            "definition": "Information on how the drug fits into current treatment guidelines or expert recommendations"
+          },
+          {
+            "value": "Real-world evidence",
+            "definition": "Data from post-marketing studies or clinical practice showing the drug's performance outside of controlled trials"
+          },
+          {
+            "value": "Pipeline information",
+            "definition": "Updates on ongoing research, future indications, or new formulations of the drug"
+          },
+          {
+            "value": "Expert opinions",
+            "definition": "Perspectives and insights from key opinion leaders or specialists in the field"
+          },
+          {
+            "value": "Patient-reported outcomes",
+            "definition": "Information on how the drug affects patients' quality of life, symptoms, or functioning"
+          },
+          {
+            "value": "Combination therapy potential",
+            "definition": "Exploration of how the drug can be used in combination with other treatments for enhanced efficacy"
+          },
+          {
+            "value": "Regulatory information",
+            "definition": "Details about the drug's approval status, indications, and any regulatory updates"
+          },
+          {
+            "value": "Support services",
+            "definition": "Information about patient assistance programs, reimbursement support, or other services offered alongside the drug"
+          }
+        ]
+      },
+      {
+        "field": "Communication Channel",
+        "values": [
+          {
+            "value": "Face-to-face",
+            "definition": "Direct in-person interactions"
+          },
+          {
+            "value": "Digital",
+            "definition": "Online platforms, websites, or apps"
+          },
+          {
+            "value": "Print",
+            "definition": "Physical printed materials"
+          },
+          {
+            "value": "Congress/Conference",
+            "definition": "Materials for scientific meetings and events"
+          },
+          {
+            "value": "Webinar",
+            "definition": "Online seminars or presentations"
+          }
+        ]
+      },
+      {
+        "field": "Stage in Customer Journey",
+        "values": [
+          {
+            "value": "Awareness",
+            "definition": "Initial exposure to the product or treatment option"
+          },
+          {
+            "value": "Consideration",
+            "definition": "Evaluating the product against alternatives"
+          },
+          {
+            "value": "Decision",
+            "definition": "Choosing to prescribe or use the product"
+          },
+          {
+            "value": "Usage",
+            "definition": "Actively using or prescribing the product"
+          },
+          {
+            "value": "Advocacy",
+            "definition": "Recommending the product to others"
+          }
+        ]
+      },
+      {
+        "field": "Clinical Focus",
+        "values": [
+          {
+            "value": "Diagnosis",
+            "definition": "Identifying the presence of the disease"
+          },
+          {
+            "value": "Treatment",
+            "definition": "Managing or curing the disease"
+          },
+          {
+            "value": "Monitoring",
+            "definition": "Tracking disease progression or treatment effectiveness"
+          },
+          {
+            "value": "Prevention",
+            "definition": "Reducing the risk of disease occurrence or recurrence"
+          },
+          {
+            "value": "Palliative Care",
+            "definition": "Managing symptoms and improving quality of life"
+          }
+        ]
+      },
+      {
+        "field": "Patient Population",
+        "values": [
+          {
+            "value": "Newly Diagnosed",
+            "definition": "Patients recently identified with the condition"
+          },
+          {
+            "value": "Relapsed/Refractory",
+            "definition": "Patients whose disease has returned or is resistant to treatment"
+          },
+          {
+            "value": "Metastatic",
+            "definition": "Patients whose cancer has spread to other parts of the body"
+          },
+          {
+            "value": "Pediatric",
+            "definition": "Children and adolescents with the condition"
+          },
+          {
+            "value": "Elderly",
+            "definition": "Older patients with specific age-related considerations"
+          }
+        ]
+      },
+      {
+        "field": "Treatment Phase",
+        "values": [
+          {
+            "value": "First-line",
+            "definition": "Initial treatment approach for newly diagnosed patients"
+          },
+          {
+            "value": "Second-line",
+            "definition": "Treatment used after first-line therapy has failed"
+          },
+          {
+            "value": "Maintenance",
+            "definition": "Ongoing treatment to prevent recurrence or progression"
+          },
+          {
+            "value": "Combination",
+            "definition": "Use of multiple treatments simultaneously"
+          },
+          {
+            "value": "Adjuvant",
+            "definition": "Additional treatment to increase the effectiveness of primary therapy"
+          }
+        ]
+      },
+      {
+        "field": "Mechanism of Action",
+        "values": [
+          {
+            "value": "Targeted Therapy",
+            "definition": "Treatment focusing on specific molecular targets in cancer cells"
+          },
+          {
+            "value": "Immunotherapy",
+            "definition": "Therapy that enhances the body's immune response against cancer"
+          },
+          {
+            "value": "Hormone Therapy",
+            "definition": "Treatment that blocks or alters hormone effects on cancer growth"
+          },
+          {
+            "value": "Gene Therapy",
+            "definition": "Treatment that modifies the genetic material of cells"
+          },
+          {
+            "value": "Angiogenesis Inhibition",
+            "definition": "Therapy that prevents the formation of new blood vessels in tumors"
+          }
+        ]
+      },
+      {
+        "field": "Competitive Positioning",
+        "values": [
+          {
+            "value": "Best-in-class",
+            "definition": "Superior to all other treatments in its category"
+          },
+          {
+            "value": "First-in-class",
+            "definition": "The first treatment of its kind in the market"
+          },
+          {
+            "value": "Improved Safety Profile",
+            "definition": "Offering better tolerability compared to alternatives"
+          },
+          {
+            "value": "Convenience",
+            "definition": "Easier administration or dosing schedule"
+          },
+          {
+            "value": "Cost-effective Alternative",
+            "definition": "Providing similar benefits at a lower overall cost"
+          }
+        ]
+      },
+      {
+        "field": "Scientific Evidence Level",
+        "values": [
+          {
+            "value": "Phase 3 Trial",
+            "definition": "Large-scale clinical trials comparing to standard of care"
+          },
+          {
+            "value": "Meta-analysis",
+            "definition": "Statistical analysis combining results from multiple studies"
+          },
+          {
+            "value": "Real-world Evidence",
+            "definition": "Data collected from routine clinical practice"
+          },
+          {
+            "value": "Case Studies",
+            "definition": "Detailed reports on individual patient experiences"
+          },
+          {
+            "value": "Preclinical Data",
+            "definition": "Evidence from laboratory or animal studies"
+          }
+        ]
+      }
+    ]
+  }

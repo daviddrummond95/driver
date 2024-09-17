@@ -1,19 +1,20 @@
 import os
-from langchain_groq import ChatGroq
+import json
+from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 import re
 from fastapi import Request, Form
 from fastapi.templating import Jinja2Templates
 from pipelines.EAGLE import check_mlr_compliance  # Import the MLR compliance check function
+from pipelines.GAIT import tag_content  # Import the GAIT tagging function
 
+# Load the taxonomy
+with open('GAIT/config/taxonomy.json', 'r') as f:
+    taxonomy = json.load(f)['taxonomy']
 
-
-llm = ChatGroq(
-    model="llama3-70b-8192",
-    temperature=0.5,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
+llm = ChatAnthropic(
+    model="claude-3-5-sonnet-20240620",
+    max_retries=2
 )
 
 prompt = ChatPromptTemplate.from_messages([
@@ -74,13 +75,18 @@ async def generate_components(request: Request, prompt: str = Form(...), compone
     # Check MLR compliance
     compliance_result = check_mlr_compliance(component["raw_content"])
     
+    # Tag content using GAIT
+    gait_tags = tag_content(component["raw_content"])
+    
     email_id = request.query_params.get("email_id")
     return templates.TemplateResponse("generated_components.html", {
         "request": request,
         "components": [{
             'type': component_type,
             'content': component["wrapped_content"],
-            'compliance_result': compliance_result
+            'compliance_result': compliance_result,
+            'gait_tags': gait_tags  # Include GAIT tags in the response
         }],
-        "email_id": email_id
+        "email_id": email_id,
+        "taxonomy": taxonomy  # Include taxonomy in the response
     })
