@@ -83,10 +83,8 @@
         document.getElementById('no-selection').classList.add('hidden');
         document.getElementById('performance-data').classList.remove('hidden');
         
-        // Encode the component ID for the URL
         const encodedComponentId = encodeURIComponent(componentId);
         
-        // Fetch performance data
         fetch(`/components/api/component-performance/${encodedComponentId}`, {
             method: 'GET',
             headers: {
@@ -94,7 +92,6 @@
             }
         })
             .then(response => {
-                console.log("Response status:", response.status);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -112,12 +109,19 @@
                         const categoryElement = document.createElement('div');
                         categoryElement.className = 'mb-2';
                         categoryElement.innerHTML = `<strong>${category}:</strong> `;
-                        tagList.forEach((tag, index) => {
+                        if (Array.isArray(tagList)) {
+                            tagList.forEach((tag, index) => {
+                                const tagElement = document.createElement('span');
+                                tagElement.className = 'inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2 mb-1';
+                                tagElement.textContent = tag;
+                                categoryElement.appendChild(tagElement);
+                            });
+                        } else {
                             const tagElement = document.createElement('span');
                             tagElement.className = 'inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2 mb-1';
-                            tagElement.textContent = tag;
+                            tagElement.textContent = tagList;
                             categoryElement.appendChild(tagElement);
-                        });
+                        }
                         tagsContainer.appendChild(categoryElement);
                     }
                 } else {
@@ -130,17 +134,42 @@
                     chart.destroy();
                 }
                 
+                const datasets = [
+                    {
+                        label: 'Component CTR',
+                        data: data.ctr_values,
+                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Average CTR for Component Type',
+                        data: data.type_avg_ctr_values,
+                        backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 1
+                    }
+                ];
+
+                // Add datasets for each tag
+                if (data.tags) {
+                    const allTags = Object.values(data.tags).flat();
+                    allTags.forEach((tag, index) => {
+                        datasets.push({
+                            label: `Average CTR for ${tag}`,
+                            data: data.tag_avg_ctr_values.map(avg => avg[tag] || 0),
+                            backgroundColor: `hsla(${index * 30}, 70%, 60%, 0.6)`,
+                            borderColor: `hsla(${index * 30}, 70%, 60%, 1)`,
+                            borderWidth: 1
+                        });
+                    });
+                }
+                
                 chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: data.personas,
-                        datasets: [{
-                            label: 'Click Through Rate (%)',
-                            data: data.ctr_values,
-                            backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                            borderColor: 'rgba(59, 130, 246, 1)',
-                            borderWidth: 1
-                        }]
+                        datasets: datasets
                     },
                     options: {
                         responsive: true,
@@ -148,7 +177,6 @@
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                max: 10, // Set a fixed maximum value for the y-axis
                                 title: {
                                     display: true,
                                     text: 'CTR (%)'
@@ -158,6 +186,22 @@
                                 title: {
                                     display: true,
                                     text: 'HCP Persona'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += context.parsed.y.toFixed(2) + '%';
+                                        }
+                                        return label;
+                                    }
                                 }
                             }
                         }
