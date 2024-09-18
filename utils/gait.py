@@ -11,20 +11,25 @@ def process_materials():
     # Ensure the table structure is up to date
     ensure_table_structure(cursor)
 
-    # Walk through the material_repo directory
-    for root, dirs, files in os.walk('material_repo'):
-        for file in files:
-            file_path = os.path.join(root, file)
-            
-            # Read the content of the file
-            with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read()
+    # Get the immediate subdirectories of material_repo
+    material_repo = 'material_repo'
+    subdirs = [d for d in os.listdir(material_repo) if os.path.isdir(os.path.join(material_repo, d))]
 
-            # Tag the content using GAIT
-            tags = tag_content(content)
+    for subdir in subdirs:
+        subdir_path = os.path.join(material_repo, subdir)
+        for file in os.listdir(subdir_path):
+            file_path = os.path.join(subdir_path, file)
+            print(file_path)
+            if os.path.isfile(file_path):
+                # Read the content of the file
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
 
-            # Update the database with the tags
-            update_database(cursor, file_path, tags)
+                # Tag the content using GAIT
+                tags = tag_content(content)
+
+                # Update the database with the tags
+                update_database(cursor, file_path, tags)
 
     # Commit changes and close the connection
     conn.commit()
