@@ -55,7 +55,6 @@
             position: relative;
         }
         .flow-step::after {
-            content: "↓";
             position: absolute;
             bottom: -1.5rem;
             left: 50%;
@@ -112,6 +111,65 @@
         }
         .feature-point:hover .bg-blue-100 {
             font-size: 110%;  /* Increase font size by 10% on hover */
+        }
+        
+        /* New styles for the content supply chain flow */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 100%;
+            padding: 20px 0;
+        }
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 20px;
+        }
+        .flow-step {
+            flex: 1;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .flow-step-centered {
+            max-width: 50%;
+            margin: 0 auto;
+        }
+        .flow-step h3 {
+            color: #2980b9;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+        .flow-step p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .flow-row {
+                flex-direction: column;
+            }
+            .flow-step-centered {
+                max-width: 100%;
+            }
+        }
+        .sub-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .sub-step {
+            background-color: #3498db;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
         }
     </style>
 </head>
@@ -172,162 +230,228 @@
         </div>
 
         <div class="text-center mt-12 animate-fade-in" style="animation-delay: 0.9s;">
-            <h2 class="text-3xl font-bold mb-4 text-gray-800">Your End-to-End Email Solution</h2>
+            <h2 class="text-3xl font-bold mb-4 text-gray-800">Your End-to-End Content Solution</h2>
             <p class="text-xl text-gray-700">
                 Experience the power of intelligent, integrated email marketing with DRIVER.
             </p>
         </div>
 
-        <!-- Flow Diagram -->
-        <div class="flow-diagram mt-16">
-            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Creating New Material from Components</h2>
-            <div class="flow-step">
-                <h3 class="font-semibold">1. AI-Powered Generation</h3>
-                <p>Generate email structure and components based on user prompt and requirements</p>
-            </div>
-            <div class="flow-step">
-                <h3 class="font-semibold">2. Component Selection</h3>
-                <p>Choose from AI-generated components or select from the component repository</p>
-            </div>
-            <div class="flow-step">
-                <h3 class="font-semibold">3. Interactive Editing</h3>
-                <p>Fine-tune components and arrange them in the email editor</p>
-            </div>
-            <div class="flow-step">
-                <h3 class="font-semibold">4. MLR Compliance Check</h3>
-                <p>Automatically review content for Medical Legal Review compliance</p>
-            </div>
-            <div class="flow-step">
-                <h3 class="font-semibold">5. GAIT Tagging</h3>
-                <p>Apply Gen AI tagging to the content</p>
-            </div>
-            <div class="flow-step">
-                <h3 class="font-semibold">6. Finalization</h3>
-                <p>Review the complete email and make any final adjustments</p>
-            </div>
-            <div class="flow-step">
-                <h3 class="font-semibold">7. PromoMats Upload</h3>
-                <p>Upload the finalized email to PromoMats for campaign management</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quadrant Chart -->
-    <div class="container mx-auto px-4 py-16">
-        <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Future Features</h2>
-        <div class="relative w-full h-[600px] border-2 border-gray-300">
-            <!-- Axis labels -->
-            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6 text-sm font-semibold">High Impact</div>
-            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-6 text-sm font-semibold">Low Impact</div>
-            <div class="absolute top-1/2 right-0 transform translate-x-6 -translate-y-1/2 text-sm font-semibold" style="writing-mode: vertical-rl; text-orientation: mixed;">High Complexity</div>
-            <div class="absolute top-1/2 left-0 transform -translate-x-6 -translate-y-1/2 text-sm font-semibold" style="writing-mode: vertical-rl; text-orientation: mixed;">Low Complexity</div>
-            
-            <!-- Axes -->
-            <div class="absolute top-0 bottom-0 left-1/2 w-px bg-gray-300"></div>
-            <div class="absolute left-0 right-0 top-1/2 h-px bg-gray-300"></div>
-            
-            <!-- Feature points -->
-            <div class="feature-point absolute top-[5%] left-[30%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Advanced Personalization</div>
-            </div>
-            <div class="feature-point absolute top-[15%] left-[20%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">A/B Testing</div>
-            </div>
-            <div class="feature-point absolute top-[40%] left-[70%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Multi-language Support</div>
-            </div>
-            <div class="feature-point absolute top-[25%] left-[40%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Analytics Dashboard</div>
-            </div>
-            <div class="feature-point absolute top-[35%] left-[60%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Integration Ecosystem</div>
-            </div>
-            <div class="feature-point absolute top-[20%] left-[35%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Dynamic Content</div>
-            </div>
-            <div class="feature-point absolute top-[10%] left-[25%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Subject Line Optimizer</div>
-            </div>
-            <div class="feature-point absolute top-[30%] left-[45%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Segmentation Tools</div>
-            </div>
-            <div class="feature-point absolute top-[45%] left-[55%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Workflow Builder</div>
-            </div>
-            <div class="feature-point absolute top-[35%] left-[30%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Send-Time Optimization</div>
-            </div>
-            <div class="feature-point absolute top-[55%] left-[40%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Interactive Elements</div>
-            </div>
-            <div class="feature-point absolute top-[70%] left-[25%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Spam Score Analyzer</div>
-            </div>
-            <div class="feature-point absolute top-[50%] left-[65%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">AI Image Creation</div>
-            </div>
-            <div class="feature-point absolute top-[40%] left-[50%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Sentiment Analysis</div>
-            </div>
-            <div class="feature-point absolute top-[60%] left-[35%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Content Curation</div>
-            </div>
-            <div class="feature-point absolute top-[25%] left-[55%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Campaign Synchronization</div>
-            </div>
-            <div class="feature-point absolute top-[15%] left-[45%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Interactive Slides</div>
-            </div>
-            <div class="feature-point absolute top-[75%] left-[30%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Banner Support</div>
-            </div>
-            <div class="feature-point absolute top-[15%] left-[80%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Orchestration Engine</div>
-            </div>
-            <div class="feature-point absolute top-[15%] left-[5%]">
-                <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">MMM Integration</div>
+        <!-- Current State Flow Diagram -->
+        <div class="container mx-auto px-4 py-16">
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Current State: Creating New Material from Components</h2>
+            <div class="flow-container">
+                <div class="flow-row">
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-robot mr-2"></i>1. AI-Powered Generation</h3>
+                        <p>Generate email structure and components based on user prompt and requirements</p>
+                    </div>
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-th-large mr-2"></i>2. Component Selection</h3>
+                        <p>Choose from AI-generated components or select from the component repository</p>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-edit mr-2"></i>3. Interactive Editing</h3>
+                        <p>Fine-tune components and arrange them in the email editor</p>
+                    </div>
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-check-circle mr-2"></i>4. MLR Compliance Check</h3>
+                        <p>Automatically review content for Medical Legal Review compliance</p>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-tags mr-2"></i>5. GAIT Tagging</h3>
+                        <p>Apply Gen AI tagging to the content</p>
+                    </div>
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-file-alt mr-2"></i>6. Finalization</h3>
+                        <p>Review the complete email and make any final adjustments</p>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-step flow-step-centered">
+                        <h3 class="font-semibold"><i class="fas fa-cloud-upload-alt mr-2"></i>7. PromoMats Upload</h3>
+                        <p>Upload the finalized email to PromoMats for campaign management</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal -->
-    <div id="featureModal" class="modal">
-        <div class="modal-content">
-            <span class="close text-2xl font-bold float-right cursor-pointer">&times;</span>
-            <div id="modalContent"></div>
+        <!-- Future Vision: Content Supply Chain Flow -->
+        <div class="container mx-auto px-4 py-16">
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Future Vision: Transforming & Optimizing the Content Supply Chain</h2>
+            <div class="flow-container">
+                <div class="flow-row">
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-flag mr-2"></i>1. Content Creation Process Begins</h3>
+                        <p>Brand strategy & objective, campaigns and material needs are defined.</p>
+                        <div class="sub-steps">
+                            <span class="sub-step">Driver based Material Scope Created</span>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-database mr-2"></i>2. Creating Better Data</h3>
+                        <p>Enhancing data for the entire ecosystem.</p>
+                        <div class="sub-steps">
+                            <span class="sub-step">Content Tagging</span>
+                            <span class="sub-step">Content Search</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-cogs mr-2"></i>3. Making Efficiencies in Content Creation and Review</h3>
+                        <p>Streamlining the content creation and review process.</p>
+                        <div class="sub-steps">
+                            <span class="sub-step">Modular Content Cobot & AI Image gen</span>
+                            <span class="sub-step">Automated MLR Review</span>
+                            <span class="sub-step">Vendor Score Cards</span>
+                            <span class="sub-step">Chat Bot for MLR Regulations</span>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <h3 class="font-semibold"><i class="fas fa-users mr-2"></i>4. Empowering Orchestration & Rep Activity</h3>
+                        <p>Focusing on customer journey and personalization.</p>
+                        <div class="sub-steps">
+                            <span class="sub-step">Customer 360 & HCP Journey</span>
+                            <span class="sub-step">Personalization</span>
+                            <span class="sub-step">Rep-HCP Cobot</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-step flow-step-centered">
+                        <h3 class="font-semibold"><i class="fas fa-chart-line mr-2"></i>5. Measurement & Promotional Campaigns</h3>
+                        <p>Evaluating the impact of campaigns in the short and long term.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const features = document.querySelectorAll('.feature-card');
-            features.forEach((feature, index) => {
-                feature.style.animationDelay = `${(index + 1) * 0.1}s`;
-            });
+        <!-- Quadrant Chart -->
+        <div class="container mx-auto px-4 py-16">
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Future Features</h2>
+            <div class="relative w-full h-[600px] border-2 border-gray-300">
+                <!-- Axis labels -->
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6 text-sm font-semibold">High Impact</div>
+                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-6 text-sm font-semibold">Low Impact</div>
+                <div class="absolute top-1/2 right-0 transform translate-x-6 -translate-y-1/2 text-sm font-semibold" style="writing-mode: vertical-rl; text-orientation: mixed;">High Complexity</div>
+                <div class="absolute top-1/2 left-0 transform -translate-x-6 -translate-y-1/2 text-sm font-semibold" style="writing-mode: vertical-rl; text-orientation: mixed;">Low Complexity</div>
+                
+                <!-- Axes -->
+                <div class="absolute top-0 bottom-0 left-1/2 w-px bg-gray-300"></div>
+                <div class="absolute left-0 right-0 top-1/2 h-px bg-gray-300"></div>
+                
+                <!-- Feature points -->
+                <div class="feature-point absolute top-[5%] left-[30%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Advanced Personalization</div>
+                </div>
+                <div class="feature-point absolute top-[15%] left-[20%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">A/B Testing</div>
+                </div>
+                <div class="feature-point absolute top-[40%] left-[70%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Multi-language Support</div>
+                </div>
+                <div class="feature-point absolute top-[25%] left-[40%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Analytics Dashboard</div>
+                </div>
+                <div class="feature-point absolute top-[35%] left-[60%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Integration Ecosystem</div>
+                </div>
+                <div class="feature-point absolute top-[20%] left-[35%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Dynamic Content</div>
+                </div>
+                <div class="feature-point absolute top-[10%] left-[25%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Subject Line Optimizer</div>
+                </div>
+                <div class="feature-point absolute top-[30%] left-[45%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Segmentation Tools</div>
+                </div>
+                <div class="feature-point absolute top-[45%] left-[55%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Workflow Builder</div>
+                </div>
+                <div class="feature-point absolute top-[35%] left-[30%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Send-Time Optimization</div>
+                </div>
+                <div class="feature-point absolute top-[55%] left-[40%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Interactive Elements</div>
+                </div>
+                <div class="feature-point absolute top-[70%] left-[25%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Spam Score Analyzer</div>
+                </div>
+                <div class="feature-point absolute top-[50%] left-[65%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">AI Image Creation</div>
+                </div>
+                <div class="feature-point absolute top-[40%] left-[50%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Sentiment Analysis</div>
+                </div>
+                <div class="feature-point absolute top-[60%] left-[35%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Content Curation</div>
+                </div>
+                <div class="feature-point absolute top-[25%] left-[55%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Campaign Synchronization</div>
+                </div>
+                <div class="feature-point absolute top-[15%] left-[45%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Interactive Slides</div>
+                </div>
+                <div class="feature-point absolute top-[75%] left-[30%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Banner Support</div>
+                </div>
+                <div class="feature-point absolute top-[15%] left-[80%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">Orchestration Engine</div>
+                </div>
+                <div class="feature-point absolute top-[15%] left-[5%]">
+                    <div class="bg-blue-100 p-1 rounded text-xs text-blue-800 whitespace-nowrap">MMM Integration</div>
+                </div>
+            </div>
+        </div>
 
-            const modal = document.getElementById("featureModal");
-            const modalContent = document.getElementById("modalContent");
-            const span = document.getElementsByClassName("close")[0];
+        <!-- Modal -->
+        <div id="featureModal" class="modal">
+            <div class="modal-content">
+                <span class="close text-2xl font-bold float-right cursor-pointer">&times;</span>
+                <div id="modalContent"></div>
+            </div>
+        </div>
 
-            document.getElementById("ai-generation").onclick = function() {
-                fetch('/content_gen_feature')
-                    .then(response => response.text())
-                    .then(data => {
-                        modalContent.innerHTML = data;
-                        modal.style.display = "block";
-                    });
-            }
+        <footer class="text-center mt-8 text-sm text-gray-600">
+            <p>© 2024 Fractal Analytics Inc. All rights reserved | Confidential</p>
+            <p>Deployed in your AWS Environment | Fits in your Existing Ecosystem</p>
+        </footer>
 
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const features = document.querySelectorAll('.feature-card');
+                features.forEach((feature, index) => {
+                    feature.style.animationDelay = `${(index + 1) * 0.1}s`;
+                });
 
-            window.onclick = function(event) {
-                if (event.target == modal) {
+                const modal = document.getElementById("featureModal");
+                const modalContent = document.getElementById("modalContent");
+                const span = document.getElementsByClassName("close")[0];
+
+                document.getElementById("ai-generation").onclick = function() {
+                    fetch('/content_gen_feature')
+                        .then(response => response.text())
+                        .then(data => {
+                            modalContent.innerHTML = data;
+                            modal.style.display = "block";
+                        });
+                }
+
+                span.onclick = function() {
                     modal.style.display = "none";
                 }
-            }
-        });
-    </script>
+
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+        </script>
+    </div>
 </body>
 </html>
